@@ -1,0 +1,7 @@
+README.md
+setup.py
+tspair/tspair.egg-info/PKG-INFO
+tspair/tspair.egg-info/SOURCES.txt
+tspair/tspair.egg-info/dependency_links.txt
+tspair/tspair.egg-info/requires.txt
+tspair/tspair.egg-info/top_level.txt
