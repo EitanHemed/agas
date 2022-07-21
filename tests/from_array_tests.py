@@ -9,7 +9,7 @@ import numpy as np
 import tspair
 
 
-def test_array():
+def test_toy_data():
     length = 10
 
     inp_vals = np.vstack((np.zeros(length), np.ones(length) * 10,
