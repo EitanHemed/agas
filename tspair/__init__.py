@@ -1,1 +1,1 @@
-from ._utils import *
+from ._from_numpy import *

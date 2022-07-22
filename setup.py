@@ -1,3 +1,22 @@
+"""
+Agas is a small Python library for pairing similar (or dissimilar) data series.
+
+Agas defines similarity as the absolute difference between pairs of output
+values from an aggregation function applied to the input series.
+The default behavior of Agas is to maximize similarity on a single dimension
+(e.g., means of the series in the input matrix) while minimizing
+similarity on another dimension (e.g., the variance of the series).
+
+The main motivation for this library is to provide a data description tool for
+depicting time-series. It is customary to plot pairs of time series, where the
+pair is composed of data which is similar on one dimension (e.g., mean value) but
+dissmilar on another dimension (e.g., standard deviation).
+
+The library name Agas is abbreviation for aggregated-series. Also, 'Agas' is
+Hebrew for 'pear'.
+"""
+DOCLINES = (__doc__ or '').split("\n")
+
 import setuptools
 
 VERSION = "0.0.1"
@@ -14,17 +33,13 @@ CLASSIFIERS = [
     'Operating System :: OS Independent',
 ]
 
-with open("README.md", "r", encoding="utf-8") as f:
-    LONG_DESCRIPTION = f.read()
-
 setuptools.setup(
     name="tspair",
     version=VERSION,
     author="Eitan Hemed",
     author_email="Eitan.Hemed@gmail.com",
-    description="Time series pairing",
-    long_description=LONG_DESCRIPTION,
-    long_description_content_type="text/markdown",
+    description=DOCLINES[0],
+    long_description="\n".join(DOCLINES[2:]),
     url="https://github.com/EitanHemed/tspair",
     project_urls={
         "Bug Tracker": "https://github.com/EitanHemed/tspair/issues",
