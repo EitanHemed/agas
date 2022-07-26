@@ -13,7 +13,7 @@ pair is composed of data which is similar on one dimension (e.g., mean value) bu
 dissmilar on another dimension (e.g., standard deviation).
 
 The library name Agas is abbreviation for aggregated-series. Also, 'Agas' is
-Hebrew for 'pear'.
+Hebrew for 'Pear'.
 """
 DOCLINES = (__doc__ or '').split("\n")
 
@@ -34,7 +34,7 @@ CLASSIFIERS = [
 ]
 
 setuptools.setup(
-    name="tspair",
+    name="agas",
     version=VERSION,
     author="Eitan Hemed",
     author_email="Eitan.Hemed@gmail.com",
@@ -45,8 +45,8 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/EitanHemed/tspair/issues",
     },
     classifiers=CLASSIFIERS,
-    package_dir={"": "tspair"},
-    packages=setuptools.find_packages(where="tspair"),
+    package_dir={"": "agas"},
+    packages=setuptools.find_packages(where="agas"),
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     classifies=CLASSIFIERS,
