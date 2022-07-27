@@ -53,7 +53,7 @@ def pair_from_array(input_array: npt.NDArray,
                                "an object that can be converted to a 2-dimensional"
                                " array")
 
-    if np.size == 0:
+    if input_array.size == 0:
         raise RuntimeError("input_array must not be empty")
 
     if input_array.shape[0] == 1:
@@ -73,12 +73,14 @@ def pair_from_array(input_array: npt.NDArray,
         else:
             raise TypeError("return_type must be a string")
 
-    if not isinstance(maximize_function, typing.Callable):
-        raise TypeError("`maximize_function` must be callable, received"
-                        f"{type(maximize_function)}")
-    if not isinstance(minimize_function, typing.Callable):
-        raise TypeError("`minimize_function` must be callable, received"
-                        f"{type(maximize_function)}")
+
+    if (not isinstance(maximize_function, typing.Callable)
+    ) or not isinstance(minimize_function, typing.Callable):
+        raise TypeError(
+            "Both `maximize_function` and `minimize_function` must be callables,"
+            f" but received {type(maximize_function)} and "
+            f"{type(minimize_function)}, respectively")
+
 
     minimize_weight = 1 - maximize_weight
 
@@ -115,7 +117,9 @@ def _apply_func(array, func):
     if 'axis' in args:
         return func(array, axis=1)
     else:
-        return func(array)
+        # It is very likely that the function will be called along first axis
+        # therefore we need to transpose the array prior to applying the function
+        return func(array.T)
 
 
 def _normalize_differences(array: npt.NDArray, func: typing.Callable):
@@ -143,7 +147,11 @@ def _get_diffs_matrix(array: npt.NDArray):
     :param array: npt.NDArray of size 1 X n.
     :return: npt.NDArray of size n X n.
     """
-    diffs_mat = np.abs(np.subtract.outer(array, array))
+
+
+    # After taking the absolute differences, cast the differences matrix as
+    # float, given we need nans on the diagonal
+    diffs_mat = np.abs(np.subtract.outer(array, array), dtype=float)
     # We can ignore the difference between each sample and itself
     np.fill_diagonal(diffs_mat, np.nan)
     return diffs_mat

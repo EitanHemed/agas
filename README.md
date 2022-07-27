@@ -18,18 +18,48 @@ dissmilar on another dimension (e.g., standard deviation).
 
 ### Usage 
 
-`agas` exposes two main functions to the user 
+`agas` exposes the following functions:
 
-1. `agas.pair_from_numpy`
-This function e
+#### 1. `agas.pair_from_numpy`
+By default, `agas.pair_from_numpy` will return the indices of the pair of arrays
+which maximize similarity on the function supplied as the `maximize` argument
+while minimizing similarity on the function supplied as the `minimize` argument. 
+```
+import numpy as np
+import agas
 
-2. `agas.pair_from_pandas`
+a = np.vstack([[0, 0.5], [0.5, 0.5], [5, 5], [4, 10]])
+
+agas.pair_from_array(a, maximize_function=np.std, minimize_function=np.mean)
+# Output: (0, 2) 
+```
+
+`a[(0, 2), :]` is `[[0, 0.5], [5, 5]]` which provide a mixture of similar variance
+and a large difference in means. We can prioritize similarity in variance over 
+dissimilarity in mean value using the `maximize_weight` (defaults to `0.5`)
+which the weights input from the maximizing-similarity function (here `np.std`) 
+vs. the minimizing-similarity function.
+
+`maximize_weight` can be set between 0 and 1 (inclusive). 
+Automatically, `minimize_weight` will be `1 - maximize_weight`.
+```
+# Continued with the array from above
+agas.pair_from_array(a, maximize_function=np.std, minimize_function=np.mean, 
+    maximize_weight=.7)
+# Output: (1, 2)
+```
+
+
+#### 2. `agas.pair_from_pandas`
+#### todo - EXAMPLE 
+
 
 ### Documentation 
-See [Here](github.io/agas)
+See [Here](github.io/agas).
 
 
-### Contributing to 
+### Bug reports
+Please open an [issue](https://github.com/EitanHemed/agas/issues). 
 
 
 ### Misc.

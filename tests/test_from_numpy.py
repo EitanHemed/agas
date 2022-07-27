@@ -91,13 +91,34 @@ def test__normalize_differences():
                              maximize_function=return_all_nans,
                              minimize_function=return_all_nans, )
 
+def test_input_arrays():
+    np.array_equal(
+        agas.pair_from_array(TOY_DATA.tolist(), maximize_function=np.mean,
+                             minimize_function=np.std, ), (0, 3))
+
+    with pytest.raises(ValueError):
+        agas.pair_from_array(TOY_DATA.tolist()[0], maximize_function=np.mean,
+                             minimize_function=np.std, )
+        agas.pair_from_array(None, maximize_function=np.mean,
+                             minimize_function=np.std, )
+
+    with pytest.raises(RuntimeError):
+        (agas.pair_from_array(TOY_DATA[[0], :], maximize_function=np.mean,
+                              minimize_function=np.std, ))
+
+        (agas.pair_from_array(np.empty((0,)), maximize_function=np.mean,
+                              minimize_function=np.std, ))
+        (agas.pair_from_array(np.empty((0, 0)), maximize_function=np.mean,
+                              minimize_function=np.std, ))
 
 def test_input_functions():
+
     with pytest.raises(TypeError):
-        agas.pair_from_array(TOY_DATA, maximize_function=None,
-                             minimize_function=np.std, )
+
         agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
                              minimize_function=None, )
+        agas.pair_from_array(TOY_DATA, maximize_function=None,
+                             minimize_function=np.std, )
         agas.pair_from_array(TOY_DATA, maximize_function=None,
                              minimize_function=None, )
 
@@ -129,3 +150,33 @@ def test_return_type():
         agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
                              minimize_function=np.std,
                              return_type=None)
+
+
+def test__apply_func():
+    a = np.array([[0, 1], [2, 3]])
+    a_sum = np.array([1, 5])
+
+    assert np.array_equal(agas._from_numpy._apply_func(a, sum), a_sum)
+    assert np.array_equal(agas._from_numpy._apply_func(a, np.sum), a_sum)
+
+    with pytest.raises(AttributeError):
+        assert np.array_equal(agas._from_numpy._apply_func(a.tolist(),
+                                                           sum), a_sum)
+
+def test__get_diffs_matrix():
+    a = np.array([1, 2, 3])
+    expected_return = np.array([[np.nan, 1, 2],
+                                [1, np.nan, 1],
+                                [2, 1, np.nan]])
+
+    assert np.array_equal(agas._from_numpy._get_diffs_matrix(a),
+                          expected_return, equal_nan=True)
+
+def test__normalize():
+    np.array_equal(agas._from_numpy._normalize(np.array([1, 2])),
+                   np.array([0, 1]))
+    np.array_equal(agas._from_numpy._normalize(np.array([-100, 100])),
+                   np.array([0, 1]))
+    np.array_equal(agas._from_numpy._normalize(np.array([0, 10, 1000])),
+                   np.array([0, 0.01, 1]))
+

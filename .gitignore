@@ -1,0 +1,9 @@
+.idea/
+.pytest_cache/
+.coverage
+
+*.pyc
+*.sw*
+build/
+dist/
+agas.edd-info
