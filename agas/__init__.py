@@ -1,2 +1,2 @@
-from ._from_numpy import *
-from ._from_pandas import *
+from ._from_numpy import pair_from_array
+from ._from_pandas import pair_from_df

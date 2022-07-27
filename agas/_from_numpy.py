@@ -14,33 +14,71 @@ RETURN_VALUES = 'values'
 RETURN_TYPE_OPTIONS = {RETURN_INDICES, RETURN_VALUES}
 
 
-def pair_from_array(input_array: npt.NDArray,
+def pair_from_array(input_array,
                     maximize_function: typing.Callable,
                     minimize_function: typing.Callable,
                     maximize_weight: typing.Union[float, int] = 0.5,
                     return_type: str = 'indices'):
-    f"""
-    :param input_array:
-        A 2D array of shape (n_series, n_times).
-    :param maximize_function:
-        Select the pair based on the maximal similarity (minimal absolute
-        difference) between the output values of this `maximize_function`.
-    :param minimize_function:
-        Select the pair based on the minimal similarity (maximal absolute
-        difference) between the output values of `minimize_function`.
-    :param maximize_weight:
+    """
+    Find an optimal pair of data series based on their normalized similarity on
+    aggregated statistics.
+
+
+    Parameters
+    ----------
+    input_array: array-like
+        A 2D array of shape (N, T), where N is the number of series and T is the
+        number of observations in each series.
+    maximize_function: Callable
+        Maximize similarity of pairs based by finding the minimal difference
+        between aggregated values of the data series, along the observations'
+        axis.
+    minimize_function: Callable
+        Minimize similarity of pairs based by finding the maximal difference
+        between aggregated values of the data series, along the observations'
+        axis.
+    maximize_weight: Int, Float, default=0.5
         The weight of the `maximize_function` function in the pairing of data
-        series. Must be between 0 and 1, inclusive. The weight of `minimize_function`
-        will be the complementy of `maximize weight`.
-    :param return_type: {RETURN_TYPE_OPTIONS}, default '{RETURN_INDICES}'
-        If '{RETURN_VALUES}', returns the indices of the paired data series out of
-         the 'input_array'. If '{RETURN_VALUES}', returns the values of the paired
-          data series. 
-    :return:
-        If `return_type` is '{RETURN_INDICES}', returns the indices of the 
-        paired data series out of input_array as tuple. If `return_type` is 
-        '{RETURN_VALUES}' returns the values of the paired data series as 
-        2D array.
+        series. Must be between 0 and 1, inclusive. The weight of
+        `minimize_function` will be 1 - `maximize weight`.
+    return_type: {'indices', 'values'}, default 'indices'
+        If 'indices', returns the indices of the paired data series out of
+        'input_array'. If 'values', returns the values of the paired data
+        series.
+
+    Returns
+    -------
+    If `return_type` is 'indices', returns the indices of the
+    paired data series out of input_array as tuple.
+    If `return_type` is 'values' returns the values of the paired data
+    series as a 2D array of size 2 X T where each sub-array is the
+    selected vector from `input_array`.
+
+    Examples
+    --------
+    Find an optimal pair of sub-arrays which have the most similar standard
+    deviation (relative to all other sub-arrays), and the most different mean
+    (relative to all other sub-arrays).
+
+    >>> a = np.vstack([[0, 0.5], [0.5, 0.5], [5, 5], [4, 10]])
+    >>> agas.pair_from_array(a, maximize_function=np.std,
+        minimize_function=np.mean)
+    (0, 2)
+
+    Increase the weight of standard deviation in finding the optimal pair using
+    the `maximize_weight` keyword argument.
+
+    >>> agas.pair_from_array(a, maximize_function=np.std,
+        minimize_function=np.mean, maximize_weight=.7)
+    (1, 2)
+
+    Return values instead of indices using the `return_type` keyword argument.
+
+    >>> agas.pair_from_array(a, maximize_function=np.std,
+        minimize_function=np.mean, return_type='values')
+    array([[0. , 0.5],
+       [5. , 5. ]])
+
     """
 
     if not isinstance(input_array, np.ndarray):

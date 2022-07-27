@@ -1,0 +1,5 @@
+pydata-sphinx-theme==0.10.0rc1
+sphinx-automodapi
+numpydoc
+nbconvert
+ipykernel
