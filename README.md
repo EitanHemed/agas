@@ -55,7 +55,7 @@ agas.pair_from_array(a, maximize_function=np.std, minimize_function=np.mean,
 
 
 ### Documentation 
-See [Here](github.io/agas).
+See [Here](github.io/EitanHemed/agas).
 
 
 ### Bug reports
