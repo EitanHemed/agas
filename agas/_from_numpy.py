@@ -19,40 +19,49 @@ def pair_from_array(input_array,
                     minimize_function: typing.Callable,
                     maximize_weight: typing.Union[float, int] = 0.5,
                     return_type: str = 'indices'):
-    """
-    Find an optimal pair of data series based on their normalized similarity on
-    aggregated statistics.
+    r"""
+    Find the optimal pair of 1D arrays given 2D array.
 
+    The optimality of the pairing of two vectors is determined by a weighted
+    average of their absolute differences, following normalization of the
+    differences between an aggregated vectors and each of the other vectors
+    (excluding itself).
+
+    Aggregation is performed using each of the aggregation functions
+    `maximize_function` and `minimize_function`, weighted by `maximize_function`
+    and 1 - `maximize_function`, respectively.
 
     Parameters
     ----------
     input_array: array-like
-        A 2D array of shape (N, T), where N is the number of series and T is the
-        number of observations in each series.
-    maximize_function: Callable
-        Maximize similarity of pairs based by finding the minimal difference
-        between aggregated values of the data series, along the observations'
-        axis.
-    minimize_function: Callable
-        Minimize similarity of pairs based by finding the maximal difference
-        between aggregated values of the data series, along the observations'
-        axis.
+        A 2D array of shape (N, T).
+    maximize_function, minimize_function: Callable
+        Used to aggregate `input_array` along the 2-nd axis and find similar
+        pairs - those with minimal absolute differences between their
+        aggregated values. `minimize_function` is identical
+        except it is used to find pairs of arrays with maximal absolute
+        differnce between aggregated values.
     maximize_weight: Int, Float, default=0.5
-        The weight of the `maximize_function` function in the pairing of data
-        series. Must be between 0 and 1, inclusive. The weight of
+        Used to weight the `maximize_function` function in weighted average of
+        aggragted diffrecnces. Must be between 0 and 1, inclusive. The weight of
         `minimize_function` will be 1 - `maximize weight`.
     return_type: {'indices', 'values'}, default 'indices'
-        If 'indices', returns the indices of the paired data series out of
-        'input_array'. If 'values', returns the values of the paired data
-        series.
+        If 'indices', returns the indices the optimal pair. If 'values', returns
+         the values of the optimal pair.
 
     Returns
     -------
     If `return_type` is 'indices', returns the indices of the
-    paired data series out of input_array as tuple.
-    If `return_type` is 'values' returns the values of the paired data
-    series as a 2D array of size 2 X T where each sub-array is the
-    selected vector from `input_array`.
+    arrays out of input_array as tuple (e.g., input_array.iloc[optimal, :])
+    If `return_type` is 'values' returns a 2D array of size (2, T), where the
+    rows are the pair of optimal vectors.
+
+    Notes
+    -----
+    Always returns a copy of the optimal arrays.
+
+    Normalization of absolute differences is performed by scaling between 0 and
+    1 [(x - min(x)) / (max(x) - min(x))].
 
     Examples
     --------
@@ -111,14 +120,12 @@ def pair_from_array(input_array,
         else:
             raise TypeError("return_type must be a string")
 
-
     if (not isinstance(maximize_function, typing.Callable)
     ) or not isinstance(minimize_function, typing.Callable):
         raise TypeError(
             "Both `maximize_function` and `minimize_function` must be callables,"
             f" but received {type(maximize_function)} and "
             f"{type(minimize_function)}, respectively")
-
 
     minimize_weight = 1 - maximize_weight
 
@@ -139,7 +146,7 @@ def pair_from_array(input_array,
     if return_type == RETURN_INDICES:
         return optimal_pair
     elif return_type == RETURN_VALUES:
-        return input_array[optimal_pair, :]
+        return input_array[optimal_pair, :].copy()
 
 
 def _apply_func(array, func):
@@ -185,7 +192,6 @@ def _get_diffs_matrix(array: npt.NDArray):
     :param array: npt.NDArray of size 1 X n.
     :return: npt.NDArray of size n X n.
     """
-
 
     # After taking the absolute differences, cast the differences matrix as
     # float, given we need nans on the diagonal

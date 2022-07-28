@@ -3,4 +3,4 @@
 
 .. currentmodule:: agas
 
-.. autofunction:: pair_from_df
+.. autofunction:: pair_from_wide_df
