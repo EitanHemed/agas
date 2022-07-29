@@ -5,9 +5,9 @@ import pandas as pd
 import pytest
 
 import agas
-from . test_from_numpy import TOY_DATA
+from . test_from_numpy import EXAMPLE_DATA
 
-TOY_DATA_DF = pd.DataFrame(TOY_DATA,
+TOY_DATA_DF = pd.DataFrame(EXAMPLE_DATA,
                            columns=[f'Day {i}' for i in range(1, 11)]).assign(
     subject_ids=['Foo', 'Bar', 'Baz'])
 

@@ -131,17 +131,17 @@ def pair_from_array(input_array,
 
     input_array = input_array.copy()
 
-    normalized_max_sim_diffs_mat = _normalize_differences(input_array,
-                                                          maximize_function)
-    normalized_min_sim_diffs_mat = _normalize_differences(input_array,
-                                                          minimize_function)
+    max_sim_diffs_mat = _calc_differences(input_array,
+                                          maximize_function)
+    min_sim_diffs_mat = _calc_differences(input_array,
+                                          minimize_function)
 
-    optimized_differences = _optimize(normalized_max_sim_diffs_mat,
-                                      normalized_min_sim_diffs_mat,
-                                      maximize_weight, minimize_weight
-                                      )
+    optimized_differences = _calculate_optimal_values(max_sim_diffs_mat,
+                                                      min_sim_diffs_mat,
+                                                      maximize_weight, minimize_weight
+                                                      )
 
-    optimal_pair = _find_optimal(optimized_differences)
+    optimal_pair = _find_optimal_pairs(optimized_differences)
 
     if return_type == RETURN_INDICES:
         return optimal_pair
@@ -167,7 +167,7 @@ def _apply_func(array, func):
         return func(array.T)
 
 
-def _normalize_differences(array: npt.NDArray, func: typing.Callable):
+def _calc_differences(array: npt.NDArray, func: typing.Callable):
     aggregated_array = _apply_func(array, func)
     if (np.any(np.isnan(aggregated_array))):
         warnings.warn(f"The result of aggregating the input values using the "
@@ -179,10 +179,7 @@ def _normalize_differences(array: npt.NDArray, func: typing.Callable):
             "Aggregating the input values using the {func.__name__}"
             " function resulted in all NaN values.")
 
-    diffs_mat = _get_diffs_matrix(aggregated_array)
-    normalized_diffs_mat = _normalize(diffs_mat)
-    return normalized_diffs_mat
-
+    return _get_diffs_matrix(aggregated_array)
 
 def _get_diffs_matrix(array: npt.NDArray):
     """
@@ -213,8 +210,8 @@ def _normalize(a: npt.NDArray):
     return (a - np.nanmin(a)) / (np.nanmax(a) - np.nanmin(a))
 
 
-def _optimize(maximize_similarity_array, minimize_similarity_array,
-              maximize_weight, minimize_weight):
+def _calculate_optimal_values(maximize_similarity_array, minimize_similarity_array,
+                              maximize_weight, minimize_weight):
     """
     Calculates the weighted average of the two similarity arrays, based on their
     respective weights.
@@ -227,12 +224,18 @@ def _optimize(maximize_similarity_array, minimize_similarity_array,
     :return:
 
     """
-    return maximize_similarity_array * maximize_weight + (
-            np.reciprocal(minimize_similarity_array) * minimize_weight
-    )
+    similarity = _normalize(maximize_similarity_array) * maximize_weight
+    dissimilarity = - 1 * _normalize(minimize_similarity_array) * minimize_weight
+    return _normalize(similarity + dissimilarity) # np.nansum([similarity, dissimilarity], axis=[0, 1])
 
 
-def _find_optimal(optimized_differences):
+def _find_optimal_pairs(optimized_differences):
+
+    # Remove repeated pairs from the differences' matrix, by asigning the lower
+    #  triangle of the array to NaNs.
+    optimized_differences[np.tril_indices(
+        optimized_differences.shape[0], -1)] = np.nan
+
     return np.unravel_index(
         np.nanargmin(optimized_differences.flatten()),
         optimized_differences.shape)

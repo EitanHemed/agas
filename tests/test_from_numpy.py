@@ -5,7 +5,10 @@ import agas
 from agas._from_numpy import (RETURN_TYPE_OPTIONS, RETURN_INDICES,
                               RETURN_VALUES)
 
-TOY_DATA = np.vstack((np.zeros(10), np.ones(10) * 10, np.arange(5, 15, )))
+TOY_DATA = np.vstack(
+    [[0, 1], [2, 3], [0, 8]])
+
+EXAMPLE_DATA = np.vstack((np.zeros(10), np.ones(10) * 10, np.arange(5, 15, )))
 
 
 def return_type_helper(array: np.ndarray, return_type: str, indices: tuple):
@@ -16,10 +19,22 @@ def return_type_helper(array: np.ndarray, return_type: str, indices: tuple):
     else:
         raise RuntimeError("Unknown return_type")
 
+@pytest.mark.parametrize('return_type', RETURN_TYPE_OPTIONS)
+def test_toy_data_sanity_check(return_type):
+
+    expected_return = return_type_helper(TOY_DATA, return_type, (1, 2))
+
+    # assert np.array_equal(
+    #         agas.pair_from_array(TOY_DATA, np.mean, np.std, ),  expected_return)
+
+    assert np.array_equal(
+        agas.pair_from_array(TOY_DATA, np.mean, np.std, 0),
+        agas.pair_from_array(TOY_DATA, np.std, np.mean, 1)
+    )
 
 @pytest.mark.parametrize('return_type', RETURN_TYPE_OPTIONS)
-def test_toy_data(return_type):
-    inp_vals = TOY_DATA
+def test_example_data(return_type):
+    inp_vals = EXAMPLE_DATA
 
     expected_return = return_type_helper(inp_vals, return_type, (0, 1))
     assert np.array_equal(agas.pair_from_array(
@@ -76,35 +91,35 @@ def test__normalize_differences():
         return res
 
     with pytest.raises(ValueError):
-        agas.pair_from_array(TOY_DATA,
+        agas.pair_from_array(EXAMPLE_DATA,
                              maximize_function=mean_with_some_nans,
                              minimize_function=np.std, )
-        agas.pair_from_array(TOY_DATA,
+        agas.pair_from_array(EXAMPLE_DATA,
                              maximize_function=mean_with_some_nans,
                              minimize_function=mean_with_some_nans, )
 
     with pytest.raises(ValueError):
-        agas.pair_from_array(TOY_DATA,
+        agas.pair_from_array(EXAMPLE_DATA,
                              maximize_function=return_all_nans,
                              minimize_function=np.std, )
-        agas.pair_from_array(TOY_DATA,
+        agas.pair_from_array(EXAMPLE_DATA,
                              maximize_function=return_all_nans,
                              minimize_function=return_all_nans, )
 
 
 def test_input_arrays():
     np.array_equal(
-        agas.pair_from_array(TOY_DATA.tolist(), maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA.tolist(), maximize_function=np.mean,
                              minimize_function=np.std, ), (0, 3))
 
     with pytest.raises(ValueError):
-        agas.pair_from_array(TOY_DATA.tolist()[0], maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA.tolist()[0], maximize_function=np.mean,
                              minimize_function=np.std, )
         agas.pair_from_array(None, maximize_function=np.mean,
                              minimize_function=np.std, )
 
     with pytest.raises(RuntimeError):
-        (agas.pair_from_array(TOY_DATA[[0], :], maximize_function=np.mean,
+        (agas.pair_from_array(EXAMPLE_DATA[[0], :], maximize_function=np.mean,
                               minimize_function=np.std, ))
 
         (agas.pair_from_array(np.empty((0,)), maximize_function=np.mean,
@@ -113,18 +128,18 @@ def test_input_arrays():
                               minimize_function=np.std, ))
 
 
-def test_input_functions():
+def test_input_functions_input_type():
     with pytest.raises(TypeError):
-        agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=np.mean,
                              minimize_function=None, )
-        agas.pair_from_array(TOY_DATA, maximize_function=None,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=None,
                              minimize_function=np.std, )
-        agas.pair_from_array(TOY_DATA, maximize_function=None,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=None,
                              minimize_function=None, )
 
 
-def test_maximize_weight():
-    _kwargs = {'input_array': TOY_DATA, 'maximize_function': np.mean,
+def test_maximize_weight_input_type():
+    _kwargs = {'input_array': EXAMPLE_DATA, 'maximize_function': np.mean,
                'minimize_function': np.std, }
 
     with pytest.raises(ValueError):
@@ -137,17 +152,17 @@ def test_maximize_weight():
 
 def test_return_type():
     with pytest.raises(ValueError):
-        agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=np.mean,
                              minimize_function=np.std,
                              return_type='array values')
     with pytest.raises(TypeError):
-        agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=np.mean,
                              minimize_function=np.std,
                              return_type=1)
-        agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=np.mean,
                              minimize_function=np.std,
                              return_type=[])
-        agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
+        agas.pair_from_array(EXAMPLE_DATA, maximize_function=np.mean,
                              minimize_function=np.std,
                              return_type=None)
 
@@ -183,7 +198,7 @@ def test__normalize():
                    np.array([0, 0.01, 1]))
 
 def test__optimize():
-    np.array_equal(agas.pair_from_array(TOY_DATA, np.std, np.median, 0.1),
-                   agas.pair_from_array(TOY_DATA, np.std, np.median, 0.9),
+    np.array_equal(agas.pair_from_array(EXAMPLE_DATA, np.std, np.median, 0.1),
+                   agas.pair_from_array(EXAMPLE_DATA, np.std, np.median, 0.9),
                    )
 
