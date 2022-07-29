@@ -37,7 +37,7 @@ def pair_from_array(input_array,
         A 2D array of shape (N, T).
     maximize_function, minimize_function: Callable
         Used to aggregate `input_array` along the 2-nd axis and find similar
-        pairs - those with minimal absolute differences between their
+        pairs - those with minimal absolute difference between their
         aggregated values. `minimize_function` is identical
         except it is used to find pairs of arrays with maximal absolute
         differnce between aggregated values.

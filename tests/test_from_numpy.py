@@ -181,3 +181,9 @@ def test__normalize():
                    np.array([0, 1]))
     np.array_equal(agas._from_numpy._normalize(np.array([0, 10, 1000])),
                    np.array([0, 0.01, 1]))
+
+def test__optimize():
+    np.array_equal(agas.pair_from_array(TOY_DATA, np.std, np.median, 0.1),
+                   agas.pair_from_array(TOY_DATA, np.std, np.median, 0.9),
+                   )
+
