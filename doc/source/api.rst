@@ -1,15 +1,15 @@
 .. _api:
 .. currentmodule:: agas
 
-.. toctree::
-   :maxdepth: 2
-
 API reference
 =============
 
+.. toctree::
+   :maxdepth: 2
+
 .. autosummary::
     :toctree: generated/
-   :nosignatures:
 
+    :nosignatures:
     agas.pair_from_array
-    agas.pair_from_df
+    agas.pair_from_wide_df

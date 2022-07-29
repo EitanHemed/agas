@@ -13,7 +13,7 @@
 
    .. autosummary::
    
-      pair_from_df
+      pair_from_wide_df
    
    
 

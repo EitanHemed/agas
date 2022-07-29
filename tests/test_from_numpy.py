@@ -8,7 +8,7 @@ from agas._from_numpy import (RETURN_TYPE_OPTIONS, RETURN_INDICES,
 TOY_DATA = np.vstack((np.zeros(10), np.ones(10) * 10, np.arange(5, 15, )))
 
 
-def _return_type_helper(array: np.ndarray, return_type: str, indices: tuple):
+def return_type_helper(array: np.ndarray, return_type: str, indices: tuple):
     if return_type == RETURN_INDICES:
         return indices
     elif return_type == RETURN_VALUES:
@@ -21,12 +21,12 @@ def _return_type_helper(array: np.ndarray, return_type: str, indices: tuple):
 def test_toy_data(return_type):
     inp_vals = TOY_DATA
 
-    expected_return = _return_type_helper(inp_vals, return_type, (0, 1))
+    expected_return = return_type_helper(inp_vals, return_type, (0, 1))
     assert np.array_equal(agas.pair_from_array(
         inp_vals, maximize_function=np.std, minimize_function=np.mean,
         return_type=return_type), expected_return)
 
-    expected_return = _return_type_helper(inp_vals, return_type, (1, 2))
+    expected_return = return_type_helper(inp_vals, return_type, (1, 2))
     assert np.array_equal(agas.pair_from_array(
         inp_vals, maximize_function=np.mean, minimize_function=np.std,
         return_type=return_type), expected_return)
@@ -41,23 +41,23 @@ def test_sim_data(return_type):
 
     inp_vals = np.vstack([rng.normal(m, sd, N) for (m, sd) in zip(means, sds)])
 
-    expected_return = _return_type_helper(inp_vals, return_type, (2, 3))
+    expected_return = return_type_helper(inp_vals, return_type, (2, 3))
     assert np.array_equal(agas.pair_from_array(
         inp_vals, maximize_function=np.mean, minimize_function=np.std,
         return_type=return_type), expected_return)
 
-    expected_return = _return_type_helper(inp_vals, return_type, (1, 3))
+    expected_return = return_type_helper(inp_vals, return_type, (1, 3))
     assert np.array_equal(agas.pair_from_array(
         inp_vals, maximize_function=np.std, minimize_function=np.mean,
         return_type=return_type), expected_return)
 
-    expected_return = _return_type_helper(inp_vals, return_type, (0, 2))
+    expected_return = return_type_helper(inp_vals, return_type, (0, 2))
     assert np.array_equal(agas.pair_from_array(
         inp_vals, maximize_function=np.std, minimize_function=np.mean,
         maximize_weight=0.95,
         return_type=return_type), expected_return)
 
-    expected_return = _return_type_helper(inp_vals, return_type, (0, 3))
+    expected_return = return_type_helper(inp_vals, return_type, (0, 3))
     assert np.array_equal(agas.pair_from_array(
         inp_vals, maximize_function=np.mean, minimize_function=np.std,
         maximize_weight=0,
@@ -91,6 +91,7 @@ def test__normalize_differences():
                              maximize_function=return_all_nans,
                              minimize_function=return_all_nans, )
 
+
 def test_input_arrays():
     np.array_equal(
         agas.pair_from_array(TOY_DATA.tolist(), maximize_function=np.mean,
@@ -111,10 +112,9 @@ def test_input_arrays():
         (agas.pair_from_array(np.empty((0, 0)), maximize_function=np.mean,
                               minimize_function=np.std, ))
 
+
 def test_input_functions():
-
     with pytest.raises(TypeError):
-
         agas.pair_from_array(TOY_DATA, maximize_function=np.mean,
                              minimize_function=None, )
         agas.pair_from_array(TOY_DATA, maximize_function=None,
@@ -163,6 +163,7 @@ def test__apply_func():
         assert np.array_equal(agas._from_numpy._apply_func(a.tolist(),
                                                            sum), a_sum)
 
+
 def test__get_diffs_matrix():
     a = np.array([1, 2, 3])
     expected_return = np.array([[np.nan, 1, 2],
@@ -172,6 +173,7 @@ def test__get_diffs_matrix():
     assert np.array_equal(agas._from_numpy._get_diffs_matrix(a),
                           expected_return, equal_nan=True)
 
+
 def test__normalize():
     np.array_equal(agas._from_numpy._normalize(np.array([1, 2])),
                    np.array([0, 1]))
@@ -179,4 +181,9 @@ def test__normalize():
                    np.array([0, 1]))
     np.array_equal(agas._from_numpy._normalize(np.array([0, 10, 1000])),
                    np.array([0, 0.01, 1]))
+
+def test__optimize():
+    np.array_equal(agas.pair_from_array(TOY_DATA, np.std, np.median, 0.1),
+                   agas.pair_from_array(TOY_DATA, np.std, np.median, 0.9),
+                   )
 
