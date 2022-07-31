@@ -236,6 +236,17 @@ def _find_optimal_pairs(optimized_differences):
     optimized_differences[np.tril_indices(
         optimized_differences.shape[0], -1)] = np.nan
 
-    return np.unravel_index(
-        np.nanargmin(optimized_differences.flatten()),
-        optimized_differences.shape)
+    not_nan_indices = ~np.isnan(optimized_differences)
+
+    # Find all indices of values which are not NaNs, hence the first occurure of
+    #  of a pair
+    indices = np.argwhere(not_nan_indices)
+    values = optimized_differences[not_nan_indices]
+
+    # Sort the indices and values by the values, from most optimal (0) to least
+    # (1)
+    ordered_values = values.argsort()
+    indices = indices[ordered_values]
+    values = values[ordered_values]
+
+    return indices[0]
