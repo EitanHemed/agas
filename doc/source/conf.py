@@ -33,7 +33,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
     'sphinx_automodapi.automodapi',
-    'sphinx.ext.imgmath'
+    'sphinx.ext.imgmath',
+    'sphinx.ext.mathjax'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -46,6 +47,11 @@ templates_path = ['_templates']
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
+
+html_sidebars = {
+'**': ['localtoc.html'],
+'index': []
+}
 
 
 # Add any paths that contain custom static files (such as style sheets) here,

@@ -13,21 +13,22 @@ def pair_from_wide_df(df: pd.DataFrame,
                       similarity_function: typing.Callable,
                       divergence_function: typing.Callable,
                       similarity_weight: typing.Union[float, int] = 0.5,
-                      return_filter: str = constants.RETURN_FILTER_STR_FIRST,
+                      return_filter: typing.Union[
+                          str, float, int] = constants.RETURN_FILTER_STR_FIRST,
                       values_columns: typing.Union[
                           typing.Tuple, typing.List, np.ndarray] = None
                       ):
     """
-    Find the optimal pair of 1D arrays given rows in a wide-format dataframe.
-    
-    The optimality of the pairing of two vectors is determined by a weighted
-    average of their absolute differences, following normalization of the
-    differences between an aggregated vectors and each of the other vectors
-    (excluding itself).
+    Calculate the optimality score of each unique pair of rows in a
+    wide-format dataframe.
 
-    Aggregation is performed using each of the aggregation functions
-    `similarity_function` and `divergence_function`, weighted by `similarity_function`
-    and 1 - `similarity_function`, respectively.
+    Optimality is such that when that the difference between two rows is minimal
+    when each is aggregated using the `similarity_function` and maximal when
+    each is aggregated using `divergence_function`.
+
+    For an explenation on the optimization process See the Notes section
+    in the docstring of :py:func:`pair_from_array <pair_from_array>`.
+
 
     Parameters
     ----------
@@ -35,18 +36,30 @@ def pair_from_wide_df(df: pd.DataFrame,
         A wide (unstacked, pivoted) dataframe, where scores are stored in
         columns and unique units are stored in rows.
     similarity_function, divergence_function: Callable
-        Used to aggregate `input_array` along the 2-nd axis and find similar
-        pairs - those with minimal absolute differences between their
-        aggregated scores. `divergence_function` is identical
-        except it is used to find pairs of arrays with maximal absolute
-        differnce between aggregated scores.
-    similarity_weight: Int, Float, default=0.5
+        Each of these two functions is used to aggregate groups of observations
+        within `input_array` (i.e., along the columns axis). The absoluet
+        differences between any pair out of the aggregated values for each group
+        . Pairs with minimal normalized absolute differences on
+        `similarity_function` and maximal normalized absolute differences on
+        `divergence_function` are scored as more optimal, while pairs with
+        maximal normalized absolute differences on
+        `similarity_function` and minimal normalized absolute differences on
+        `divergence_function` are scored as least optimal.
+    similarity_weight: int, float, default=0.5
         Used to weight the `similarity_function` function in weighted average of
         aggragted diffrecnces. Must be between 0 and 1, inclusive. The weight of
         `divergence_function` will be 1 - `maximize weight`.
-    return_type: {'indices', 'scores'}, default 'scores'
-        If 'indices', returns the indices of the paired rows out of
-        'df'. If 'scores', returns the paired rows.
+    return_filter: typing.Union[str, int, float], default 'first'
+        If string must be one of {'first', 'top', 'bottom', 'last', 'all'}:
+            - 'first', returns the indices the optimal pair.
+            - 'top' return all pairs equivilent with the most optimal pair.
+            - 'last' returns the least optimal pair.
+            - 'bottom' returns all pairs eqivilent with the least optimal pair.
+            - 'all' returns all pairs sorted by optimality (descending).
+        If int or float
+            - Must be in the range of [0, 1] (inclusive). Returns all pairs up
+              to the input value, including. i.e., 0 is equivilent to 'top',
+              1 is equivilent to 'all'.
     values_columns: array-like, Default None
         List, Tuple or Array of the column names of the scores to aggregate. If
         None, assumes all columns should be aggregated.
@@ -65,15 +78,18 @@ def pair_from_wide_df(df: pd.DataFrame,
     Notes
     -----
     Currently Agas doesn't allow usage of string function names for aggregation,
-     unlike what can be done using pandas.
-
-    Always returns a copy of the optimal rows.
-
-    Normalization of absolute differences is performed by scaling between 0 and
-    1 [(x - min(x)) / (max(x) - min(x))].
+    unlike what can be done using pandas.
 
     Examples
     -----
+
+    .. testsetup:: *
+       import pandas as pd
+       import numpy as np
+       import agas
+
+    .. doctest::
+
     Setting up a small dataset of angle readings from fictitious sensors,
     collected in 3-hour intervals.
 
@@ -89,7 +105,8 @@ def pair_from_wide_df(df: pd.DataFrame,
     Yaw and Roll display the highest normalized similarity in mean value,
     and the lowest normalized similarity in sum value.
 
-    >>> agas.pair_from_wide_df(df, np.std, np.sum)
+    >>> indices, scores = agas.pair_from_wide_df(df, np.std, np.sum)
+    >>> df.iloc[indices, :]
           3PM  6PM  9PM
     Yaw     0    2    1
     Roll  120  150  179
@@ -97,15 +114,17 @@ def pair_from_wide_df(df: pd.DataFrame,
     Giving standard deviation a heavier weight, leads to Pitch and Roll
     selected as the optimal value.
 
-    >>> agas.pair_from_wide_df(df, np.std, np.sum, 0.8)
+    >>> indices, scores = agas.pair_from_wide_df(df, np.std, np.sum, 0.8)
+    >>> df.iloc[indices, :]
            3PM  6PM  9PM
     Pitch   10   11  100
     Roll   120  150  179
 
     Prioritizing small differences between sums, and large differences in
-    variance
+    variance:
 
-    >>> agas.pair_from_wide_df(df, np.sum, np.std)
+    >>> indices, scores = agas.pair_from_wide_df(df, np.sum, np.std)
+    >>> df.iloc[indices, :]
            3PM  6PM  9PM
     Yaw      0    2    1
     Pitch   10   11  100

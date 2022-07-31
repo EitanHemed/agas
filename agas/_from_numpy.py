@@ -20,29 +20,16 @@ def pair_from_array(input_array,
                     divergence_function: typing.Callable,
                     similarity_weight: typing.Union[
                         float, int] = constants.DEFAULT_SIMILARITY_WEIGHT,
-                    return_filter: str = constants.RETURN_FILTER_STR_FIRST):
+                    return_filter: typing.Union[
+                        str, float, int] = constants.RETURN_FILTER_STR_FIRST):
     r"""
     Calculate the optimality score of each unique pair of rows in a 2D array.
 
-    Given a matrix of size N X T, for each set of {ri, rj} out of 
-    the N * (N - 1) / 2 unique pairs of rows, a set differences {dij1, dij2} 
-    is calculated by applying two aggregation functions {f1, f2} to r1 and r2 
-    separately (i.e., dij1 = |f1(ri) - f1(rj)|, d2 = |f2(ri) - f2(rj)|).
-    
-    Each of dijx in {dij1, dij2} is scaled between 0 and 1, relative to the
-    set of absolute difference between pairs of rows, obtained using function
-    fx.
-    
-    f1 and f2 correspond to the arguments `similarity_function` and
-    `divergence_function`, respectively. f1 rewards minimal differences
-    between pairs and penalizes maximal differences. d2 is multiplied by -1 to
-    penalize for minimal differences and reward maximal differences between
-    pairs. w1 and w2 correspond to `similarity_weight` and
-    `1 - similarity_weight`, respectively.
+    Optimality is such that when that the difference between two rows is minimal
+    when each is aggregated using the `similarity_function` and maximal when
+    each is aggregated using `divergence_function`.
 
-    The optimality score oij is is calcualted as a weighted sum
-    dij1 * w1 - dij2 * w2, then scaled again between 0 and 1, relative to
-    the set of all other scores.
+    For elaborate description, see Notes below or the agas Tutorial.
 
     Parameters
     ----------
@@ -62,18 +49,18 @@ def pair_from_array(input_array,
         maximal normalized absolute differences on
         `similarity_function` and minimal normalized absolute differences on
         `divergence_function` are scored as least optimal.
-    similarity_weight: Int, Float, default=0.5
+    similarity_weight: int, float, default=0.5
         Used to weight the `similarity_function` function in weighted average of
         aggragted diffrecnces. Must be between 0 and 1, inclusive. The weight of
         `divergence_function` will be 1 - `maximize weight`.
-    return_filter: typing.Union[str, int, float], default 'first'
+    return_filter: typing.Union[str, Int, Float, ], default 'first'
         If string must be one of {'first', 'top', 'bottom', 'last', 'all'}:
             - 'first', returns the indices the optimal pair.
             - 'top' return all pairs equivilent with the most optimal pair.
             - 'last' returns the least optimal pair.
             - 'bottom' returns all pairs eqivilent with the least optimal pair.
             - 'all' returns all pairs sorted by optimality (descending).
-        If float
+        If int or float
             - Must be in the range of [0, 1] (inclusive). Returns all pairs
             up to the input value, including. i.e., 0 is equivilent to 'top',
             1 is equivilent to 'all'.
@@ -85,19 +72,44 @@ def pair_from_array(input_array,
         A 2D array, column-axis size is always 2. Each row contains the row-indices of a pair from the original array.
             - If `return_filter` is 'first' or 'last', then `indices` is of length 1 as only a single pair is returened.
             - If `return_filter` is 'all', then `indices` is of length N(N-1)/2 as all pairs are returned.
-            - If `return_filter` is 'top' or 'bottom' then shape is subject to the data.
+            - If `return_filter` 'top', 'bottom' or numeric then shape is subject to the data.
     scores : npt.NDArray
         A 1D array of the optimality scores corresponding to the indices
         found in `indices`.
 
     Notes
     -----
+    Given a matrix of size N X T, for each set of {ri, rj} out of
+    the N * (N - 1) / 2 unique pairs of rows, a set differences {dij1, dij2}
+    is calculated by applying two aggregation functions {f1, f2} to r1 and r2
+    separately (i.e., dij1 = \|f1(ri) - f1(rj)\|, d2 = \|f2(ri) - f2(rj)\|).
+
+    Each of dijx in {dij1, dij2} is scaled between 0 and 1, relative to the
+    set of absolute difference between pairs of rows, obtained using function
+    fx.
+
+    f1 and f2 correspond to the arguments `similarity_function` and
+    `divergence_function`, respectively. f1 rewards minimal differences
+    between pairs and penalizes maximal differences. d2 is multiplied by -1 to
+    penalize for minimal differences and reward maximal differences between
+    pairs. w1 and w2 correspond to `similarity_weight` and
+    `1 - similarity_weight`, respectively.
+
+    The optimality score oij is calcualted as a weighted sum
+    dij1 * w1 - dij2 * w2, then scaled again between 0 and 1, relative to
+    the set of all other scores.
 
     Examples
     --------
     Find an optimal pair of sub-arrays which have the most similar standard
     deviation (relative to all other sub-arrays), and the most different mean
     (relative to all other sub-arrays).
+
+    .. testsetup:: *
+       import numpy as np
+       import agas
+
+    .. doctest::
 
     >>> a = np.vstack([[0, 0.5], [0.5, 0.5], [5, 5], [4, 10]])
     >>> indices, scores = agas.pair_from_array(a, similarity_function=np.std,
@@ -185,7 +197,7 @@ def pair_from_array(input_array,
         if isinstance(return_filter, str):
             raise ValueError(
                 RETURN_FILTER_ERROR_STR + f"; received {return_filter}")
-        if isinstance(return_filter, float):
+        if isinstance(return_filter, float) or isinstance(return_filter, int):
             if not 0 <= return_filter <= 1.0:
                 raise ValueError(
                     RETURN_FILTER_ERROR_STR + f"; received {return_filter}")
@@ -193,8 +205,13 @@ def pair_from_array(input_array,
             raise TypeError(RETURN_FILTER_ERROR_STR +
                             f" ; received {type(return_filter)}")
 
-    if not ((0 <= similarity_weight) & (similarity_weight <= 1)):
-        raise ValueError("divergence_function must be between 0 and 1 (0≤x<1)")
+    if isinstance(similarity_weight, float) or isinstance(similarity_weight, int):
+        if not ((0 <= similarity_weight) & (similarity_weight <= 1)):
+            raise ValueError("similarity_weight must a float or an int be "
+                             "between 0 and 1 (0≤x<1)")
+    else:
+        raise TypeError("similarity_weight must be between 0 and 1 (0≤x<1), "
+                        "received {type(similarity_weight)}")
 
     divergence_weight = 1 - similarity_weight
 
