@@ -2,7 +2,7 @@
 Agas is a small Python library for pairing similar (or dissimilar) data series.
 
 Agas defines similarity as the absolute difference between pairs of output
-values from an aggregation function applied to the input series.
+scores from an aggregation function applied to the input series.
 The default behavior of Agas is to maximize similarity on a single dimension
 (e.g., means of the series in the input matrix) while minimizing
 similarity on another dimension (e.g., the variance of the series).

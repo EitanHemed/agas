@@ -3,16 +3,17 @@ import typing
 import numpy as np
 import pandas as pd
 
+from . import constants
 from . import _from_numpy
 
 __all__ = ['pair_from_wide_df']
 
 
 def pair_from_wide_df(df: pd.DataFrame,
-                      maximize_function: typing.Callable,
-                      minimize_function: typing.Callable,
-                      maximize_weight: typing.Union[float, int] = 0.5,
-                      return_type: str = 'values',
+                      similarity_function: typing.Callable,
+                      divergence_function: typing.Callable,
+                      similarity_weight: typing.Union[float, int] = 0.5,
+                      return_filter: str = constants.RETURN_FILTER_STR_FIRST,
                       values_columns: typing.Union[
                           typing.Tuple, typing.List, np.ndarray] = None
                       ):
@@ -25,36 +26,36 @@ def pair_from_wide_df(df: pd.DataFrame,
     (excluding itself).
 
     Aggregation is performed using each of the aggregation functions
-    `maximize_function` and `minimize_function`, weighted by `maximize_function`
-    and 1 - `maximize_function`, respectively.
+    `similarity_function` and `divergence_function`, weighted by `similarity_function`
+    and 1 - `similarity_function`, respectively.
 
     Parameters
     ----------
     df: pd.DataFrame
-        A wide (unstacked, pivoted) dataframe, where values are stored in
+        A wide (unstacked, pivoted) dataframe, where scores are stored in
         columns and unique units are stored in rows.
-    maximize_function, minimize_function: Callable
+    similarity_function, divergence_function: Callable
         Used to aggregate `input_array` along the 2-nd axis and find similar
         pairs - those with minimal absolute differences between their
-        aggregated values. `minimize_function` is identical
+        aggregated scores. `divergence_function` is identical
         except it is used to find pairs of arrays with maximal absolute
-        differnce between aggregated values.
-    maximize_weight: Int, Float, default=0.5
-        Used to weight the `maximize_function` function in weighted average of
+        differnce between aggregated scores.
+    similarity_weight: Int, Float, default=0.5
+        Used to weight the `similarity_function` function in weighted average of
         aggragted diffrecnces. Must be between 0 and 1, inclusive. The weight of
-        `minimize_function` will be 1 - `maximize weight`.
-    return_type: {'indices', 'values'}, default 'values'
+        `divergence_function` will be 1 - `maximize weight`.
+    return_type: {'indices', 'scores'}, default 'scores'
         If 'indices', returns the indices of the paired rows out of
-        'df'. If 'values', returns the paired rows.
+        'df'. If 'scores', returns the paired rows.
     values_columns: array-like, Default None
-        List, Tuple or Array of the column names of the values to aggregate. If
+        List, Tuple or Array of the column names of the scores to aggregate. If
         None, assumes all columns should be aggregated.
 
     Returns
     -------
-    If `return_type` is 'indices', returns the indices of the
+    If `return_filter` is 'indices', returns the indices of the
     optimal pair of rows out of `df` (e.g., df.iloc[optimal, :]).
-    If `return_type` is 'values' returns a dataframe composed of the optima pair
+    If `return_filter` is 'scores' returns a dataframe composed of the optima pair
     of rows out of `df`.
 
     See Also
@@ -122,10 +123,7 @@ def pair_from_wide_df(df: pd.DataFrame,
         _df = df.copy()
 
     res = _from_numpy.pair_from_array(
-        _df.values, maximize_function, minimize_function,
-        maximize_weight, return_type=_from_numpy.RETURN_INDICES)
+        _df.values, similarity_function, divergence_function,
+        similarity_weight, return_filter)
 
-    if return_type is _from_numpy.RETURN_INDICES:
-        return list(res)
-    if return_type is _from_numpy.RETURN_VALUES:
-        return df.iloc[list(res), :].copy()
+    return res

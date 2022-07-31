@@ -5,7 +5,8 @@ import pandas as pd
 import pytest
 
 import agas
-from . test_from_numpy import EXAMPLE_DATA
+import constants
+from . test_from_numpy_api import EXAMPLE_DATA
 
 TOY_DATA_DF = pd.DataFrame(EXAMPLE_DATA,
                            columns=[f'Day {i}' for i in range(1, 11)]).assign(
@@ -27,26 +28,17 @@ def test_invalid_arguments():
                 like='Day'), np.mean, np.std)
 
 
-@pytest.mark.parametrize("return_type", agas._from_numpy.RETURN_TYPE_OPTIONS)
 @pytest.mark.parametrize("values_columns",
                          [None, TOY_DATA_DF.filter(like='Day').columns])
-def test_return_type(return_type: str,
-                     values_columns: typing.Union[None, typing.List]):
+def test_return_type(values_columns: typing.Union[None, typing.List]):
+
     if values_columns is None:
         inp_vals = TOY_DATA_DF.filter(like='Day')
     else:
         inp_vals = TOY_DATA_DF.copy()
 
-    if return_type == agas._from_numpy.RETURN_VALUES:
-        expected_return = inp_vals.iloc[[0, 1], :]
-        pd.testing.assert_frame_equal(
-            agas.pair_from_wide_df(inp_vals, np.std, np.mean,
-                                   return_type=return_type,
-                                   values_columns=values_columns),
-            expected_return)
-
-    if return_type == agas._from_numpy.RETURN_INDICES:
-        expected_return = [0, 1]
-        assert agas.pair_from_wide_df(inp_vals, np.std, np.mean,
-                                      return_type=return_type,
-                                      values_columns=values_columns) == expected_return
+    expected_return = inp_vals.iloc[[0, 1], :]
+    pd.testing.assert_frame_equal(
+        inp_vals.iloc[agas.pair_from_wide_df(inp_vals, np.std, np.mean,
+                               values_columns=values_columns)[0], :],
+        expected_return)
