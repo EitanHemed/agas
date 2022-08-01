@@ -42,13 +42,13 @@ def pair_from_array(input_array,
     similarity_function, divergence_function: Callable
         Each of these two functions is used to aggregate groups of observations
         within `input_array` (i.e., along the columns axis). The absoluet
-        differences between any pair out of the aggregated values for each group
-        . Pairs with minimal normalized absolute differences on
+        differences between any pair out of the aggregated values for each
+        group. Pairs with minimal normalized absolute differences on
         `similarity_function` and maximal normalized absolute differences on
         `divergence_function` are scored as more optimal, while pairs with
-        maximal normalized absolute differences on
-        `similarity_function` and minimal normalized absolute differences on
-        `divergence_function` are scored as least optimal.
+        maximal normalized absolute differences on `similarity_function` and
+        minimal normalized absolute differences on `divergence_function` are
+        scored as least optimal.
     similarity_weight: int, float, default=0.5
         Used to weight the `similarity_function` function in weighted average of
         aggragted diffrecnces. Must be between 0 and 1, inclusive. The weight of
@@ -64,7 +64,6 @@ def pair_from_array(input_array,
             - Must be in the range of [0, 1] (inclusive). Returns all pairs
             up to the input value, including. i.e., 0 is equivilent to 'top',
             1 is equivilent to 'all'.
-
 
     Returns
     -------
@@ -104,7 +103,6 @@ def pair_from_array(input_array,
     Find an optimal pair of sub-arrays which have the most similar standard
     deviation (relative to all other sub-arrays), and the most different mean
     (relative to all other sub-arrays).
-
 
     .. doctest::
 
@@ -203,7 +201,8 @@ def pair_from_array(input_array,
             raise TypeError(RETURN_FILTER_ERROR_STR +
                             f" ; received {type(return_filter)}")
 
-    if isinstance(similarity_weight, float) or isinstance(similarity_weight, int):
+    if isinstance(similarity_weight, float) or isinstance(similarity_weight,
+                                                          int):
         if not ((0 <= similarity_weight) & (similarity_weight <= 1)):
             raise ValueError("similarity_weight must a float or an int be "
                              "between 0 and 1 (0≤x<1)")
