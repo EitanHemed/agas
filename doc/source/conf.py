@@ -37,6 +37,16 @@ extensions = [
     'sphinx.ext.mathjax'
 ]
 
+
+doctest_global_setup = """
+import numpy as np
+import pandas as pd
+import agas
+
+np.set_printoptions(2)
+pd.set_option("display.precision", 2)
+"""
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

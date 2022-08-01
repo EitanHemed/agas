@@ -6,7 +6,7 @@ import warnings
 import numpy as np
 import numpy.typing as npt
 
-from . import constants
+from agas import constants
 
 __all__ = ['pair_from_array']
 
@@ -105,15 +105,12 @@ def pair_from_array(input_array,
     deviation (relative to all other sub-arrays), and the most different mean
     (relative to all other sub-arrays).
 
-    .. testsetup:: *
-       import numpy as np
-       import agas
 
     .. doctest::
 
     >>> a = np.vstack([[0, 0.5], [0.5, 0.5], [5, 5], [4, 10]])
     >>> indices, scores = agas.pair_from_array(a, similarity_function=np.std,
-        divergence_function=np.mean)
+    ...    divergence_function=np.mean)
     >>> indices, a[indices]
     (array([1, 2], dtype=int64), array([[0.5, 0.5],
            [5. , 5. ]]))
@@ -135,12 +132,12 @@ def pair_from_array(input_array,
 
     >>> indices, scores = agas.pair_from_array(a, similarity_function=np.std,
     ...         divergence_function=np.mean, return_filter='all')
-    >>> print(*list(zip(indices.tolist(), scores.round(3))), sep='\n')
+    >>> print(*list(zip(indices.tolist(), scores.round(2))), sep='\n')
     ([1, 2], 0.0)
-    ([0, 2], 0.032)
-    ([0, 3], 0.412)
+    ([0, 2], 0.03)
+    ([0, 3], 0.41)
     ([1, 3], 0.5)
-    ([0, 1], 0.532)
+    ([0, 1], 0.53)
     ([2, 3], 1.0)
 
     The `return_filter` argument can also be specified using a float, selecting
@@ -148,11 +145,12 @@ def pair_from_array(input_array,
 
     >>> indices, scores = agas.pair_from_array(a, similarity_function=np.std,
     ...          divergence_function=np.mean, return_filter=0.5)
-    >>> print(*list(zip(indices.tolist(), scores.round(3))), sep='\n')
+    >>> print(*list(zip(indices.tolist(), scores.round(2))), sep='\n')
     ([1, 2], 0.0)
-    ([0, 2], 0.032)
-    ([0, 3], 0.412)
+    ([0, 2], 0.03)
+    ([0, 3], 0.41)
     ([1, 3], 0.5)
+
 
     Control the weight of the function maximizing similarity in the calculation
     of optimality scores, using the `similarity_weight` keyword argument. Here

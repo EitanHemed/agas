@@ -3,8 +3,8 @@ import typing
 import numpy as np
 import pandas as pd
 
-from . import constants
-from . import _from_numpy
+from agas import constants
+from agas import _from_numpy
 
 __all__ = ['pair_from_wide_df']
 
@@ -88,6 +88,8 @@ def pair_from_wide_df(df: pd.DataFrame,
        import numpy as np
        import agas
 
+
+
     .. doctest::
 
     Setting up a small dataset of angle readings from fictitious sensors,
@@ -96,7 +98,7 @@ def pair_from_wide_df(df: pd.DataFrame,
     >>> data = np.array([(0, 2, 1), (10, 11, 100), (120, 150, 179)])
     >>> df = pd.DataFrame(data, columns=['3PM', '6PM', '9PM'],
     ...             index=['Yaw', 'Pitch', 'Roll'])
-    >>> df.agg([np.std, 'sum'], axis=1).round(2)
+    >>> df.agg([np.std, 'sum'], axis=1)
              std    sum
     Yaw     1.00    3.0
     Pitch  51.68  121.0
