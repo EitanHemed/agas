@@ -5,7 +5,6 @@ import pandas as pd
 import pytest
 
 import agas
-import constants
 from . test_from_numpy_api import EXAMPLE_DATA
 
 TOY_DATA_DF = pd.DataFrame(EXAMPLE_DATA,

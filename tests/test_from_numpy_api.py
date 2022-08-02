@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 import agas
-from constants import RETURN_FILTER_STR_FIRST, RETURN_FILTER_STR_LAST
+from agas.constants import RETURN_FILTER_STR_FIRST, RETURN_FILTER_STR_LAST
 
 TOY_DATA = np.vstack(
     [[0, 1], [2, 3], [0, 8]])
