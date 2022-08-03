@@ -208,7 +208,7 @@ def pair_from_array(input_array,
                              "between 0 and 1 (0≤x<1)")
     else:
         raise TypeError("similarity_weight must be between 0 and 1 (0≤x<1), "
-                        "received {type(similarity_weight)}")
+                        f"received {type(similarity_weight)}")
 
     divergence_weight = 1 - similarity_weight
 
@@ -253,7 +253,7 @@ def _calc_differences(array: npt.NDArray, func: typing.Callable):
     if (np.all(np.isnan(aggregated_array))):
         raise ValueError(
             "Aggregating the input scores using the {func.__name__}"
-            " function resulted in all NaN scores.")
+            f" function resulted in all NaN scores.")
 
     return _get_diffs_matrix(aggregated_array)
 
