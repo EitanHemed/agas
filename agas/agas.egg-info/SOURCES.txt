@@ -1,7 +1,0 @@
-README.md
-setup.py
-agas/agas.egg-info/PKG-INFO
-agas/agas.egg-info/SOURCES.txt
-agas/agas.egg-info/dependency_links.txt
-agas/agas.egg-info/requires.txt
-agas/agas.egg-info/top_level.txt

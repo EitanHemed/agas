@@ -16,7 +16,8 @@ def pair_from_wide_df(df: pd.DataFrame,
                       return_filter: typing.Union[
                           str, float, int] = constants.RETURN_FILTER_STR_FIRST,
                       values_columns: typing.Union[
-                          typing.Tuple, typing.List, np.ndarray] = None
+                          typing.Tuple, typing.List, np.ndarray] = None,
+                      return_matrix: bool = False
                       ):
     """
     Calculate the optimality score of each unique pair of rows in a
@@ -60,16 +61,24 @@ def pair_from_wide_df(df: pd.DataFrame,
             - Must be in the range of [0, 1] (inclusive). Returns all pairs up
               to the input value, including. i.e., 0 is equivilent to 'top',
               1 is equivilent to 'all'.
+    return_matrix: bool: optional, default False
+        if return_matrix is True, returns the matrix of optimality scores,
+        regardless of `return_filter` value. If False, follows the specification
+        under return_filter.
     values_columns: array-like, Default None
         List, Tuple or Array of the column names of the scores to aggregate. If
         None, assumes all columns should be aggregated.
 
     Returns
     -------
-    If `return_filter` is 'indices', returns the indices of the
-    optimal pair of rows out of `df` (e.g., df.iloc[optimal, :]).
-    If `return_filter` is 'scores' returns a dataframe composed of the optima pair
-    of rows out of `df`.
+    If return_matrix is False (default)
+        - If `return_filter` is 'indices', returns the indices of the
+        optimal pair of rows out of `df` (e.g., df.iloc[optimal, :]).
+        - If `return_filter` is 'scores' returns a dataframe composed of the
+        optimal pair of rows out of `df`.
+    If return_matrix is True, returns a 2d array of size [N(N-1)/2, N(N-1)/2],
+    containing the optimality scores (ranging from 0 to 1 , inclusive), between
+    each pair of row-indice pairs. The matrix diagonal is filled with NaNs.
 
     See Also
     --------

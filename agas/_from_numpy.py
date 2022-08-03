@@ -21,7 +21,8 @@ def pair_from_array(input_array,
                     similarity_weight: typing.Union[
                         float, int] = constants.DEFAULT_SIMILARITY_WEIGHT,
                     return_filter: typing.Union[
-                        str, float, int] = constants.RETURN_FILTER_STR_FIRST):
+                        str, float, int] = constants.RETURN_FILTER_STR_FIRST,
+                    return_matrix: bool = False):
     r"""
     Calculate the optimality score of each unique pair of rows in a 2D array.
 
@@ -64,17 +65,25 @@ def pair_from_array(input_array,
             - Must be in the range of [0, 1] (inclusive). Returns all pairs
             up to the input value, including. i.e., 0 is equivilent to 'top',
             1 is equivilent to 'all'.
+    return_matrix: bool: optional, default False
+        if return_matrix is True, returns the matrix of optimality scores,
+        regardless of `return_filter` value. If False, follows the specification
+        under return_filter.
 
     Returns
     -------
-    indices : npt.NDArray
-        A 2D array, column-axis size is always 2. Each row contains the row-indices of a pair from the original array.
-            - If `return_filter` is 'first' or 'last', then `indices` is of length 1 as only a single pair is returened.
-            - If `return_filter` is 'all', then `indices` is of length N(N-1)/2 as all pairs are returned.
-            - If `return_filter` 'top', 'bottom' or numeric then shape is subject to the data.
-    scores : npt.NDArray
-        A 1D array of the optimality scores corresponding to the indices
-        found in `indices`.
+    If return_matrix is False (default), returns
+        indices : npt.NDArray
+            A 2D array, column-axis size is always 2. Each row contains the row-indices of a pair from the original array.
+                - If `return_filter` is 'first' or 'last', then `indices` is of length 1 as only a single pair is returened.
+                - If `return_filter` is 'all', then `indices` is of length N(N-1)/2 as all pairs are returned.
+                - If `return_filter` 'top', 'bottom' or numeric then shape is subject to the data.
+        scores : npt.NDArray
+            A 1D array of the optimality scores corresponding to the indices
+            found in `indices`.
+    If return_matrix is True, returns a 2d array of size [N(N-1)/2, N(N-1)/2],
+    containing the optimality scores (ranging from 0 to 1 , inclusive), between
+    each pair of row-indice pairs. The matrix diagonal is filled with NaNs.
 
     Notes
     -----
@@ -210,6 +219,10 @@ def pair_from_array(input_array,
         raise TypeError("similarity_weight must be between 0 and 1 (0≤x<1), "
                         f"received {type(similarity_weight)}")
 
+    if not isinstance(return_matrix, bool):
+        raise TypeError("return_matrix must be a boolean, received  "
+                        f"{type(return_matrix)}")
+
     divergence_weight = 1 - similarity_weight
 
     input_array = input_array.copy()
@@ -219,6 +232,10 @@ def pair_from_array(input_array,
 
     optimized_differences = _calc_optimality_scores(
         similarity_mat, dissimilarity_mat, similarity_weight, divergence_weight)
+
+    if return_matrix:
+        return optimized_differences
+
 
     return _form_return_result(*_find_optimal_pairs(optimized_differences),
                                return_filter)
