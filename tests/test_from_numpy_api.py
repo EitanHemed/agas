@@ -143,3 +143,23 @@ def test_return_filter():
         agas.pair_from_array(EXAMPLE_DATA, similarity_function=np.mean,
                              divergence_function=np.std,
                              return_filter=None)
+
+def test_return_matrix_output():
+    indices, scores = scores_matrix = agas.pair_from_array(TOY_DATA, np.mean,
+                                                           np.std,
+                                                           return_filter='all')
+    scores_matrix = agas.pair_from_array(TOY_DATA, np.mean, np.std,
+                                         return_matrix=True)
+
+    assert np.nanmax(scores_matrix) == 1
+    assert np.nanmin(scores_matrix) == 0
+
+    assert np.array_equal(
+        np.argwhere(scores_matrix == np.nanmin(scores_matrix))[0],
+        indices[0]
+    )
+
+    assert np.array_equal(
+        np.argwhere(scores_matrix == np.nanmax(scores_matrix))[0],
+        indices[-1]
+    )

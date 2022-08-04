@@ -79,3 +79,20 @@ def test__normalize_differences():
         agas.pair_from_array(EXAMPLE_DATA,
                              similarity_function=return_all_nans,
                              divergence_function=return_all_nans, )
+
+def test_return_matrix_argument():
+
+    with pytest.raises(TypeError):
+        agas.pair_from_array(EXAMPLE_DATA,
+                             similarity_function=np.mean,
+                             divergence_function=np.std,
+                             return_matrix=None)
+        agas.pair_from_array(EXAMPLE_DATA,
+                             similarity_function=np.mean,
+                             divergence_function=np.std,
+                             return_matrix=1)
+        agas.pair_from_array(EXAMPLE_DATA,
+                             similarity_function=np.mean,
+                             divergence_function=np.std,
+                             return_matrix=0.0)
+
