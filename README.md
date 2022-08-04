@@ -1,67 +1,219 @@
-### Agas is a small Python library for pairing similar (or dissimilar) data series.
+## Agas
+Agas is a small Python library for pairing similar (or dissimilar) data series.
 
-### Data Series Similarity
-Agas defines similarity as the absolute difference between pairs of output
-values from an aggregation function applied to the input series.
-The default behavior of Agas is to maximize similarity on a single dimension
-(e.g., means of the series in the input matrix) while minimizing
-similarity on another dimension (e.g., the variance of the series).
+Often when you have data from multiple units (e.g., participants, sensors) you need to find similar pairs of units such as two units which have similar variance relative to the rest of the sample, or perhaps units which are similar on one criteria and different on another (maximize on mean and minimize similarity on the sum of values).
 
-### Motivation
-The main motivation for this library is to provide a data description tool for
-depicting time-series. It is customary to plot pairs of time series, where the
-pair is composed of data which is similar on one dimension (e.g., mean value) but
-dissmilar on another dimension (e.g., standard deviation).
+Agas allows you to test the matching of all possible pairs flexibly.
 
-### Setup
-```pip install agas``` should work. Conda package coming soon!
+The name Agas is abbreviation for aggregated-series. Also, 'Agas' is
+Hebrew for 'Pear'.
 
-### Usage 
+#### Setup and requirements
 
-`agas` exposes the following functions:
+`pip install agas`, Conda package coming soon!
 
-#### 1. `agas.pair_from_numpy`
-By default, `agas.pair_from_numpy` will return the indices of the pair of arrays
-which maximize similarity on the function supplied as the `maximize` argument
-while minimizing similarity on the function supplied as the `minimize` argument. 
-```
+The requirements are just NumPy and Pandas. The examples on the tutorial require additional pacakges.
+
+#### Usage
+
+`agas` 0.0.1 exposes the functions `agas.pair_from_array` and `agas.pair_from_wide_df`. For more details please refer to the API [reference](github.io/EitanHemed/agas/api).
+
+
+
+```python
 import numpy as np
+import seaborn as sns
+import pandas as pd
+
+pd.set_option('display.precision', 2)
+pd.set_option("display.max_columns", 5)
+
+np.set_printoptions(precision=3)
+
+sns.set_context('notebook')
+
 import agas
+```
 
+Given the 2D array `a`, find rows which have the most similar standard deviation values, and the most different total sums.
+
+
+```python
 a = np.vstack([[0, 0.5], [0.5, 0.5], [5, 5], [4, 10]])
-
-agas.pair_from_array(a, maximize_function=np.std, minimize_function=np.mean)
-# Output: (0, 2) 
-```
-
-`a[(0, 2), :]` is `[[0, 0.5], [5, 5]]` which provide a mixture of similar variance
-and a large difference in means. We can prioritize similarity in variance over 
-dissimilarity in mean value using the `maximize_weight` (defaults to `0.5`)
-which the weights input from the maximizing-similarity function (here `np.std`) 
-vs. the minimizing-similarity function.
-
-`maximize_weight` can be set between 0 and 1 (inclusive). 
-Automatically, `minimize_weight` will be `1 - maximize_weight`.
-```
-# Continued with the array from above
-agas.pair_from_array(a, maximize_function=np.std, minimize_function=np.mean, 
-    maximize_weight=.7)
-# Output: (1, 2)
 ```
 
 
-#### 2. `agas.pair_from_pandas`
-#### todo - EXAMPLE 
+```python
+np.stack([a.std(axis=1), a.sum(axis=1)], axis=1)
+```
 
 
-### Documentation 
+
+
+    array([[ 0.25,  0.5 ],
+           [ 0.  ,  1.  ],
+           [ 0.  , 10.  ],
+           [ 3.  , 14.  ]])
+
+
+
+It is easy to see that the optimal pair of rows in this case is the 2nd and 3rd rows.
+
+By deafult Agas returns only the optimal pair (see below for more options).
+`indices` represents the indices of the pair of optimal rows, `scores` represents the optimal score (0).
+
+
+```python
+indices, scores = agas.pair_from_array(a, similarity_function=np.std, divergence_function=np.sum)
+print(indices)
+print(scores)
+```
+
+    [1 2]
+    [0.]
+    
+
+If we care more about divergence in sum of each row, we can decrease the weight given to
+the similarity function, here `np.std`. This is done by using the `similarity_weight` argument (defaults to 0.5).
+
+
+```python
+indices, _ = agas.pair_from_array(a, similarity_function=np.std, divergence_function=np.sum,
+                                  similarity_weight=0.3)
+print(indices)
+```
+
+    [0 2]
+    
+
+You can view the optimality scores assigned to each of the pairs, using the `return_matrix` argument.
+The pairing of the 1st and 3rd rows [0, 2] receives the score 0, which is most optimal.
+
+The diagonal is empty as the matching of a row with itself is not calculated by `Agas`.
+
+
+
+```python
+sns.heatmap(
+    agas.pair_from_array(
+        a, similarity_function=np.std,
+          divergence_function=np.sum,
+          similarity_weight=0.3, return_matrix=True),
+    annot=True)
+```
+
+
+
+
+    <AxesSubplot:>
+
+
+
+
+    
+![png](README_files/README_12_1.png)
+    
+
+
+`agas.pair_from_wide_df` can be used to find the optimal pair of rows given a dataframe.
+
+
+```python
+wide_df = pd.DataFrame(np.hstack([a, a ** 2]),
+                  columns=['A', 'B', 'C', 'D'],
+                  index=['Y1', 'Y2', 'Y3', 'Y4']).T
+wide_df
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Y1</th>
+      <th>Y2</th>
+      <th>Y3</th>
+      <th>Y4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>0.00</td>
+      <td>0.50</td>
+      <td>5.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>0.50</td>
+      <td>0.50</td>
+      <td>5.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>0.00</td>
+      <td>0.25</td>
+      <td>25.0</td>
+      <td>16.0</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>0.25</td>
+      <td>0.25</td>
+      <td>25.0</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+On both `pair_from_wide_df` and `pair_from_array` we can use the `return_filter` argument to receive pairs with scores
+within a set range. The default is to only return the first value, here we ask only for scores lower than .7.
+
+
+```python
+indices, scores = agas.pair_from_wide_df(wide_df, np.mean, np.max, return_filter=0.7)
+print(f'Indices of of rows with optimality scores below .7 - \n{indices}')
+print(f'Matching scores  - {scores}')
+```
+
+    Indices of of rows with optimality scores below .7 - 
+    [[2 3]
+     [1 3]
+     [0 1]
+     [0 3]]
+    Matching scores  - [0.    0.486 0.514 0.514]
+    
+
+
+
+for more examples see the [tutorial](github.io/EitanHemed/agas/tutorial).
+
+
+
+#### Documentation
 See [Here](github.io/EitanHemed/agas).
 
 
-### Bug reports
-Please open an [issue](https://github.com/EitanHemed/agas/issues). 
-
-
-### Misc.
-The library name Agas is abbreviation for aggregated-series. Also, 'Agas' is
-Hebrew for 'Pear'.
+#### Bug reports
+Please open an [issue](https://github.com/EitanHemed/agas/issues) on GitHub.

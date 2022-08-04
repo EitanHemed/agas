@@ -15,9 +15,12 @@ Agas
 Agas is a small Python library for pairing similar (or dissimilar) data series.
 
 
-:ref:`API Reference <api>`
+   .. toctree::
+     :maxdepth: 1
 
-:ref:`User Guide <tutorial>`
+     API Reference <api>
+     User Guide <_tutorial/tutorial>
+
 
 Please report bugs and make suggestions
 `here <https://github.com/EitanHemed/agas/issues>`_.

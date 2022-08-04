@@ -34,7 +34,8 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx_automodapi.automodapi',
     'sphinx.ext.imgmath',
-    'sphinx.ext.mathjax'
+    'sphinx.ext.mathjax',
+    'nbsphinx'
 ]
 
 
