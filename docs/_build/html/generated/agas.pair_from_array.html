@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>agas.pair_from_array &#8212; agas 0.0.1 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="agas.pair_from_wide_df" href="agas.pair_from_wide_df.html" />
+    <link rel="prev" title="API reference" href="../api.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">agas 0.0.1 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../api.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../_tutorial/tutorial.html">
+  User Guide
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items">
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="agas-pair-from-array">
+<h1>agas.pair_from_array<a class="headerlink" href="#agas-pair-from-array" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="agas.pair_from_array">
+<span class="sig-prename descclassname"><span class="pre">agas.</span></span><span class="sig-name descname"><span class="pre">pair_from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">similarity_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'first'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#agas.pair_from_array" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the optimality score of each unique pair of rows in a 2D array.</p>
+<p>Optimality is such that when that the difference between two rows is minimal
+when each is aggregated using the <cite>similarity_function</cite> and maximal when
+each is aggregated using <cite>divergence_function</cite>.</p>
+<p>For elaborate description, see Notes below or the agas Tutorial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_array</strong> (<em>array-like</em><em>, </em><em>shape</em><em> (</em><em>N</em><em>, </em><em>T</em><em>)</em>) – The data to be processed. Each row of N rows (the first axis, 0) is a
+unique groupunit of values to be aggregated together (e.g., subjects
+from an experiment). Each column of T columns (the second axis, 1)
+represent the different observations within each groupunit (e.g.,
+across timestamps).</p></li>
+<li><p><strong>similarity_function</strong> (<em>Callable</em>) – Each of these two functions is used to aggregate groups of observations
+within <cite>input_array</cite> (i.e., along the columns axis). The absoluet
+differences between any pair out of the aggregated values for each
+group. Pairs with minimal normalized absolute differences on
+<cite>similarity_function</cite> and maximal normalized absolute differences on
+<cite>divergence_function</cite> are scored as more optimal, while pairs with
+maximal normalized absolute differences on <cite>similarity_function</cite> and
+minimal normalized absolute differences on <cite>divergence_function</cite> are
+scored as least optimal.</p></li>
+<li><p><strong>divergence_function</strong> (<em>Callable</em>) – Each of these two functions is used to aggregate groups of observations
+within <cite>input_array</cite> (i.e., along the columns axis). The absoluet
+differences between any pair out of the aggregated values for each
+group. Pairs with minimal normalized absolute differences on
+<cite>similarity_function</cite> and maximal normalized absolute differences on
+<cite>divergence_function</cite> are scored as more optimal, while pairs with
+maximal normalized absolute differences on <cite>similarity_function</cite> and
+minimal normalized absolute differences on <cite>divergence_function</cite> are
+scored as least optimal.</p></li>
+<li><p><strong>similarity_weight</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><em>default=0.5</em>) – Used to weight the <cite>similarity_function</cite> function in weighted average of
+aggragted diffrecnces. Must be between 0 and 1, inclusive. The weight of
+<cite>divergence_function</cite> will be 1 - <cite>maximize weight</cite>.</p></li>
+<li><p><strong>return_filter</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Int</em><em>, </em><em>Float</em><em>, </em><em>]</em><em>, </em><em>default 'first'</em>) – <dl>
+<dt>If string must be one of {‘first’, ‘top’, ‘bottom’, ‘last’, ‘all’}:</dt><dd><ul>
+<li><p>’first’, returns the indices the optimal pair.</p></li>
+<li><p>’top’ return all pairs equivilent with the most optimal pair.</p></li>
+<li><p>’last’ returns the least optimal pair.</p></li>
+<li><p>’bottom’ returns all pairs eqivilent with the least optimal pair.</p></li>
+<li><p>’all’ returns all pairs sorted by optimality (descending).</p></li>
+</ul>
+</dd>
+<dt>If int or float</dt><dd><ul>
+<li><p>Must be in the range of [0, 1] (inclusive). Returns all pairs</p></li>
+</ul>
+<p>up to the input value, including. i.e., 0 is equivilent to ‘top’,
+1 is equivilent to ‘all’.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>return_matrix</strong> (<em>bool: optional</em><em>, </em><em>default False</em>) – if return_matrix is True, returns the matrix of optimality scores,
+regardless of <cite>return_filter</cite> value. If False, follows the specification
+under return_filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul>
+<li><p><em>If return_matrix is False (default), returns</em> –</p>
+<dl class="simple">
+<dt>indices<span class="classifier">npt.NDArray</span></dt><dd><dl class="simple">
+<dt>A 2D array, column-axis size is always 2. Each row contains the row-indices of a pair from the original array.</dt><dd><ul class="simple">
+<li><p>If <cite>return_filter</cite> is ‘first’ or ‘last’, then <cite>indices</cite> is of length 1 as only a single pair is returened.</p></li>
+<li><p>If <cite>return_filter</cite> is ‘all’, then <cite>indices</cite> is of length N(N-1)/2 as all pairs are returned.</p></li>
+<li><p>If <cite>return_filter</cite> ‘top’, ‘bottom’ or numeric then shape is subject to the data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>scores<span class="classifier">npt.NDArray</span></dt><dd><p>A 1D array of the optimality scores corresponding to the indices
+found in <cite>indices</cite>.</p>
+</dd>
+</dl>
+</li>
+<li><p><em>If return_matrix is True, returns a 2d array of size [N(N-1)/2, N(N-1)/2],</em></p></li>
+<li><p><em>containing the optimality scores (ranging from 0 to 1 , inclusive), between</em></p></li>
+<li><p><em>each pair of row-indice pairs. The matrix diagonal is filled with NaNs.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Given a matrix of size N X T, for each set of {ri, rj} out of
+the N * (N - 1) / 2 unique pairs of rows, a set differences {dij1, dij2}
+is calculated by applying two aggregation functions {f1, f2} to r1 and r2
+separately (i.e., dij1 = |f1(ri) - f1(rj)|, d2 = |f2(ri) - f2(rj)|).</p>
+<p>Each of dijx in {dij1, dij2} is scaled between 0 and 1, relative to the
+set of absolute difference between pairs of rows, obtained using function
+fx.</p>
+<p>f1 and f2 correspond to the arguments <cite>similarity_function</cite> and
+<cite>divergence_function</cite>, respectively. f1 rewards minimal differences
+between pairs and penalizes maximal differences. d2 is multiplied by -1 to
+penalize for minimal differences and reward maximal differences between
+pairs. w1 and w2 correspond to <cite>similarity_weight</cite> and
+<cite>1 - similarity_weight</cite>, respectively.</p>
+<p>The optimality score oij is calcualted as a weighted sum
+dij1 * w1 - dij2 * w2, then scaled again between 0 and 1, relative to
+the set of all other scores.</p>
+<p class="rubric">Examples</p>
+<p>Find an optimal pair of sub-arrays which have the most similar standard
+deviation (relative to all other sub-arrays), and the most different mean
+(relative to all other sub-arrays).</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">indices</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">similarity_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">divergence_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">indices</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+<span class="go">(array([1, 2], dtype=int64), array([[0.5, 0.5],</span>
+<span class="go">       [5. , 5. ]]))</span>
+</pre></div>
+</div>
+<p>The pair of rows [[0.5, 0.5], [5, 5]] out of the input statisfies the lowest
+absolute difference in standard deviation (i.e., 0) and the largest
+absolute difference in mean values (4.5). The score of the most optimal
+pair is 0.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span>
+<span class="go">array([0.])</span>
+</pre></div>
+</div>
+<p>Optimality scores are more useful when asking agas.pair_from_array for a
+subset of pairs. For example, if we want to get the optimality scores of all
+pairs, we can set return_filter argument (default, ‘first’) to ‘all’.</p>
+<p>Printing the pairs of rows from <cite>a</cite>, sorted by optimality (0 is most optimal
+1 is least optimal).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">indices</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">similarity_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">divergence_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">return_filter</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">([1, 2], 0.0)</span>
+<span class="go">([0, 2], 0.03)</span>
+<span class="go">([0, 3], 0.41)</span>
+<span class="go">([1, 3], 0.5)</span>
+<span class="go">([0, 1], 0.53)</span>
+<span class="go">([2, 3], 1.0)</span>
+</pre></div>
+</div>
+<p>The <cite>return_filter</cite> argument can also be specified using a float, selecting
+pairs which are up to a specific threshold (including).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">indices</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">similarity_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">divergence_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">return_filter</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">([1, 2], 0.0)</span>
+<span class="go">([0, 2], 0.03)</span>
+<span class="go">([0, 3], 0.41)</span>
+<span class="go">([1, 3], 0.5)</span>
+</pre></div>
+</div>
+<p>Control the weight of the function maximizing similarity in the calculation
+of optimality scores, using the <cite>similarity_weight</cite> keyword argument. Here
+we prioritize differences in means over lack of differences in variance,
+by decreasing similarity_weight from 0.5 (default) to 0.2. This returns a
+a differnet pair then before.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">similarity_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">divergence_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">similarity_weight</span><span class="o">=</span><span class="mf">.2</span><span class="p">)</span>
+<span class="go">(array([0, 3], dtype=int64), array([0.]))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../api.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">API reference</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="agas.pair_from_wide_df.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">agas.pair_from_wide_df</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, Eitan Hemed.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

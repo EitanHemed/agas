@@ -15,6 +15,11 @@ dissmilar on another dimension (e.g., standard deviation).
 The library name Agas is abbreviation for aggregated-series. Also, 'Agas' is
 Hebrew for 'Pear'.
 """
+import glob
+import os
+import pathlib
+import shutil
+
 DOCLINES = (__doc__ or '').split("\n")
 
 import setuptools
@@ -33,6 +38,34 @@ CLASSIFIERS = [
     'Operating System :: OS Independent',
 ]
 
+
+class CleanCommand(setuptools.Command):
+    """https://stackoverflow.com/a/3780822/8522898
+    """
+
+    CLEAN_FILES = './build ./dist ./*.pyc ./*.tgz ./*.egg-info'.split(' ')
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        for dirpath in ['build', 'dist'] + list(pathlib.Path('.').rglob('*egg-info')):
+            if os.path.exists(dirpath) and os.path.isdir(dirpath):
+                shutil.rmtree(dirpath)
+
+        for ext in ['pyc', 'tgz', 'egg-info']:
+            for f in glob.glob(f'./*{ext}'):
+                print(f)
+                os.remove(f)
+
+
+
+
 setuptools.setup(
     name="agas",
     version=VERSION,
@@ -45,8 +78,11 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/EitanHemed/agas/issues",
     },
     classifiers=CLASSIFIERS,
-    packages=['agas'],
+    package_dir={'': 'agas'},
+    packages=setuptools.find_packages("agas"),
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
-    classifies=CLASSIFIERS,
+    cmdclass={
+        'clean': CleanCommand,
+    }
 )
