@@ -158,8 +158,17 @@ def test_return_matrix_output():
         np.argwhere(scores_matrix == np.nanmin(scores_matrix))[0],
         indices[0]
     )
+    assert np.array_equal(
+        np.argwhere(scores_matrix == np.nanmin(scores_matrix))[1][::-1],
+        indices[0]
+    )
 
     assert np.array_equal(
         np.argwhere(scores_matrix == np.nanmax(scores_matrix))[0],
+        indices[-1]
+    )
+
+    assert np.array_equal(
+        np.argwhere(scores_matrix == np.nanmax(scores_matrix))[1][::-1],
         indices[-1]
     )
