@@ -1,5 +1,4 @@
-"""
-Agas is a small Python library for pairing similar (or dissimilar) data series.
+"""Agas is a small Python library for pairing similar (or dissimilar) data series.
 
 Agas defines similarity as the absolute difference between pairs of output
 scores from an aggregation function applied to the input series.
@@ -54,7 +53,8 @@ class CleanCommand(setuptools.Command):
         pass
 
     def run(self):
-        for dirpath in ['build', 'dist'] + list(pathlib.Path('.').rglob('*egg-info')):
+        for dirpath in ['build', 'dist'] + list(
+                pathlib.Path('.').rglob('*egg-info')):
             if os.path.exists(dirpath) and os.path.isdir(dirpath):
                 shutil.rmtree(dirpath)
 
@@ -64,15 +64,13 @@ class CleanCommand(setuptools.Command):
                 os.remove(f)
 
 
-
-
 setuptools.setup(
     name="agas",
     version=VERSION,
     author="Eitan Hemed",
     author_email="Eitan.Hemed@gmail.com",
-    description=DOCLINES[0],
-    long_description="\n".join(DOCLINES[2:]),
+    description='Agas is a small Python library for pairing similar (or dissimilar) data series.',
+    long_description="\n".join(DOCLINES),
     url="https://github.com/EitanHemed/agas",
     project_urls={
         "Bug Tracker": "https://github.com/EitanHemed/agas/issues",
