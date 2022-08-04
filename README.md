@@ -157,36 +157,28 @@ Selecting the optimal pair of rows - similar means, different maximal values:
 ```python
 print(
     "Aggregated: ",
-    wide_df.agg([np.mean, np.max], axis=1).to_markdown(tablefmt="grid"),
+    wide_df.agg([np.mean, np.max], axis=1).to_markdown(),
     "Optimal pair (raw): ",
-      wide_df.iloc[indices[0], :].to_markdown(tablefmt="grid"),
+      wide_df.iloc[indices[0], :].to_markdown(),
     sep='\n\n')
 
 ```
 
     Aggregated: 
     
-    +----+---------+--------+
     |    |    mean |   amax |
-    +====+=========+========+
+    |:---|--------:|-------:|
     | A  |  2.375  |      5 |
-    +----+---------+--------+
     | B  |  4      |     10 |
-    +----+---------+--------+
     | C  | 10.3125 |     25 |
-    +----+---------+--------+
     | D  | 31.375  |    100 |
-    +----+---------+--------+
     
     Optimal pair (raw): 
     
-    +----+------+------+------+------+
     |    |   Y1 |   Y2 |   Y3 |   Y4 |
-    +====+======+======+======+======+
+    |:---|-----:|-----:|-----:|-----:|
     | C  | 0    | 0.25 |   25 |   16 |
-    +----+------+------+------+------+
     | D  | 0.25 | 0.25 |   25 |  100 |
-    +----+------+------+------+------+
     
 
 
