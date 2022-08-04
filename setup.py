@@ -40,7 +40,7 @@ CLASSIFIERS = [
 
 
 class CleanCommand(setuptools.Command):
-    """https://stackoverflow.com/a/3780822/8522898
+    """Somewhat based on https://stackoverflow.com/a/3780822/8522898
     """
 
     CLEAN_FILES = './build ./dist ./*.pyc ./*.tgz ./*.egg-info'.split(' ')
@@ -78,8 +78,7 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/EitanHemed/agas/issues",
     },
     classifiers=CLASSIFIERS,
-    package_dir={'': 'agas'},
-    packages=setuptools.find_packages("agas"),
+    packages=setuptools.find_packages('agas'),
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     cmdclass={
