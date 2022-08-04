@@ -78,7 +78,7 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/EitanHemed/agas/issues",
     },
     classifiers=CLASSIFIERS,
-    packages=setuptools.find_packages('agas'),
+    packages=setuptools.find_packages(),
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     cmdclass={
