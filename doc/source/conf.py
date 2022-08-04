@@ -1,6 +1,6 @@
 # Configuration file for the Sphinx documentation builder.
 #
-# For the full list of built-in configuration values, see the documentation:
+# For the full list of built-in configuration scores, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # -- Path setup --------------------------------------------------------------
@@ -33,8 +33,20 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
     'sphinx_automodapi.automodapi',
-    'sphinx.ext.imgmath'
+    'sphinx.ext.imgmath',
+    'sphinx.ext.mathjax',
+    'nbsphinx'
 ]
+
+
+doctest_global_setup = """
+import numpy as np
+import pandas as pd
+import agas
+
+np.set_printoptions(2)
+pd.set_option("display.precision", 2)
+"""
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -46,6 +58,11 @@ templates_path = ['_templates']
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
+
+html_sidebars = {
+'**': ['localtoc.html'],
+'index': []
+}
 
 
 # Add any paths that contain custom static files (such as style sheets) here,

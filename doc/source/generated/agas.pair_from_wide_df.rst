@@ -1,5 +1,5 @@
-﻿agas.pair\_from\_df
-===================
+﻿agas.pair\_from\_wide\_df
+=========================
 
 .. currentmodule:: agas
 
