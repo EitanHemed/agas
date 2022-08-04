@@ -122,77 +122,23 @@ sns.heatmap(
 wide_df = pd.DataFrame(np.hstack([a, a ** 2]),
                   columns=['A', 'B', 'C', 'D'],
                   index=['Y1', 'Y2', 'Y3', 'Y4']).T
-wide_df
+print(wide_df)
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Y1</th>
-      <th>Y2</th>
-      <th>Y3</th>
-      <th>Y4</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>A</th>
-      <td>0.00</td>
-      <td>0.50</td>
-      <td>5.0</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <th>B</th>
-      <td>0.50</td>
-      <td>0.50</td>
-      <td>5.0</td>
-      <td>10.0</td>
-    </tr>
-    <tr>
-      <th>C</th>
-      <td>0.00</td>
-      <td>0.25</td>
-      <td>25.0</td>
-      <td>16.0</td>
-    </tr>
-    <tr>
-      <th>D</th>
-      <td>0.25</td>
-      <td>0.25</td>
-      <td>25.0</td>
-      <td>100.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+         Y1    Y2    Y3     Y4
+    A  0.00  0.50   5.0    4.0
+    B  0.50  0.50   5.0   10.0
+    C  0.00  0.25  25.0   16.0
+    D  0.25  0.25  25.0  100.0
+    
 
 On both `pair_from_wide_df` and `pair_from_array` we can use the `return_filter` argument to receive pairs with scores
 within a set range. The default is to only return the first value, here we ask only for scores lower than .7.
 
 
 ```python
-indices, scores = agas.pair_from_wide_df(wide_df, np.mean, np.max, return_filter=0.7)
+indices, scores = agas.pair_from_wide_df(wide_df, np.mean, np.max,
+                                         return_filter=0.7)
 print(f'Indices of of rows with optimality scores below .7 - \n{indices}')
 print(f'Matching scores  - {scores}')
 ```
@@ -203,6 +149,44 @@ print(f'Matching scores  - {scores}')
      [0 1]
      [0 3]]
     Matching scores  - [0.    0.486 0.514 0.514]
+    
+
+Selecting the optimal pair of rows - similar means, different maximal values:
+
+
+```python
+print(
+    "Aggregated: ",
+    wide_df.agg([np.mean, np.max], axis=1).to_markdown(tablefmt="grid"),
+    "Optimal pair (raw): ",
+      wide_df.iloc[indices[0], :].to_markdown(tablefmt="grid"),
+    sep='\n\n')
+
+```
+
+    Aggregated: 
+    
+    +----+---------+--------+
+    |    |    mean |   amax |
+    +====+=========+========+
+    | A  |  2.375  |      5 |
+    +----+---------+--------+
+    | B  |  4      |     10 |
+    +----+---------+--------+
+    | C  | 10.3125 |     25 |
+    +----+---------+--------+
+    | D  | 31.375  |    100 |
+    +----+---------+--------+
+    
+    Optimal pair (raw): 
+    
+    +----+------+------+------+------+
+    |    |   Y1 |   Y2 |   Y3 |   Y4 |
+    +====+======+======+======+======+
+    | C  | 0    | 0.25 |   25 |   16 |
+    +----+------+------+------+------+
+    | D  | 0.25 | 0.25 |   25 |  100 |
+    +----+------+------+------+------+
     
 
 
