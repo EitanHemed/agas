@@ -1,4 +1,4 @@
-Results of doctest builder run on 2022-09-02 14:19:57
+Results of doctest builder run on 2022-09-02 14:47:38
 =====================================================
 
 Document: generated/agas.pair_from_array
