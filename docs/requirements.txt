@@ -5,3 +5,4 @@ numpydoc
 nbconvert
 ipykernel
 nbsphinx
+pandoc
