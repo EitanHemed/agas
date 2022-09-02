@@ -96,24 +96,18 @@ The diagonal is empty as the matching of a row with itself is not calculated by 
 
 
 ```python
-sns.heatmap(
+g = sns.heatmap(
     agas.pair_from_array(
         a, similarity_function=np.std,
           divergence_function=np.sum,
           similarity_weight=0.3, return_matrix=True),
     annot=True)
+g.get_figure().set_facecolor('white')
 ```
 
 
-
-
-    <AxesSubplot:>
-
-
-
-
     
-![png](README_files/README_13_1.png)
+![png](README_files/README_13_0.png)
     
 
 
@@ -145,14 +139,6 @@ print(f'Indices of of rows with optimality scores below .7 - \n{indices}')
 print(f'Matching scores  - {scores}')
 ```
 
-    Indices of of rows with optimality scores below .7 - 
-    [[2 3]
-     [1 3]
-     [0 1]
-     [0 3]]
-    Matching scores  - [0.    0.486 0.514 0.514]
-    
-
 Selecting the optimal pair of rows - similar means, different maximal values:
 
 
@@ -165,23 +151,6 @@ print(
     sep='\n\n')
 
 ```
-
-    Aggregated: 
-    
-    |    |    mean |   amax |
-    |:---|--------:|-------:|
-    | A  |  2.375  |      5 |
-    | B  |  4      |     10 |
-    | C  | 10.3125 |     25 |
-    | D  | 31.375  |    100 |
-    
-    Optimal pair (raw): 
-    
-    |    |   Y1 |   Y2 |   Y3 |   Y4 |
-    |:---|-----:|-----:|-----:|-----:|
-    | C  | 0    | 0.25 |   25 |   16 |
-    | D  | 0.25 | 0.25 |   25 |  100 |
-    
 
 
 
