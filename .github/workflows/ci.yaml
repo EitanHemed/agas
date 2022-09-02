@@ -37,6 +37,7 @@ jobs:
         if: ${{ matrix.platform == 'ubuntu-latest' && matrix.python-version == 3.9 }}
         run: |
           cd docs
+          sudo apt install pandoc
           pip install -r requirements.txt
           make clean && make html && make doctest
           
