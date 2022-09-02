@@ -5,12 +5,12 @@
   :target: https://badge.fury.io/py/agas
 
 .. image:: https://img.shields.io/github/license/EitanHemed/agas.svg
-  :target: https://github.com/EitanHemed/pingouin/blob/main/LICENSE
+  :target: https://github.com/EitanHemed/agas/blob/main/LICENSE
 
 .. image:: https://pepy.tech/badge/agas/month
     :target: https://pepy.tech/badge/agas/month
 
-.. image:: https://codecov.io/gh/EitanHemed/agas/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/EitanHemed/agas/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/EitanHemed/agas
 
 

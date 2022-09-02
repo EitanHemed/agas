@@ -1,16 +1,16 @@
-Results of doctest builder run on 2022-09-02 12:09:23
+Results of doctest builder run on 2022-09-02 14:19:57
 =====================================================
 
-Document: generated/agas.pair_from_wide_df
-------------------------------------------
+Document: generated/agas.pair_from_array
+----------------------------------------
 1 items passed all tests:
    9 tests in default
 9 tests in 1 items.
 9 passed and 0 failed.
 Test passed.
 
-Document: generated/agas.pair_from_array
-----------------------------------------
+Document: generated/agas.pair_from_wide_df
+------------------------------------------
 1 items passed all tests:
    9 tests in default
 9 tests in 1 items.

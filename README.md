@@ -1,3 +1,5 @@
+[![fury.io](https://badge.fury.io/py/agas.svg)](https://badge.fury.io/py/agas) [![shields.io](https://img.shields.io/github/license/EitanHemed/agas.svg)](https://github.com/EitanHemed/agas/blob/main/LICENSE) [![pepy.tech](https://pepy.tech/badge/agas/month)](https://pepy.tech/badge/agas/month) [![codecov.io](https://codecov.io/gh/EitanHemed/agas/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EitanHemed/agas)
+
 ## Agas
 Agas is a small Python library for pairing similar (or dissimilar) data series.
 
@@ -111,7 +113,7 @@ sns.heatmap(
 
 
     
-![png](README_files/README_12_1.png)
+![png](README_files/README_13_1.png)
     
 
 
