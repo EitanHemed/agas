@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Agas Tutorial &#8212; agas 0.0.1 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">agas 0.0.1 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="api.html">
+  API Reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="_tutorial/tutorial.html">
+  User Guide
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Agas Tutorial</a><ul>
+<li><a class="reference internal" href="#what-is-agas">What is Agas</a></li>
+<li><a class="reference internal" href="#use-cases">Use cases</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#toy-data-example">Toy-data example</a></li>
+<li><a class="reference internal" href="#real-world-example">Real-world example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-agas">
+   What is Agas
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-cases">
+   Use cases
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#requirements">
+   Requirements
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#toy-data-example">
+     Toy-data example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#real-world-example">
+     Real-world example
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="agas-tutorial">
+<h1>Agas Tutorial<a class="headerlink" href="#agas-tutorial" title="Permalink to this heading">#</a></h1>
+<section id="what-is-agas">
+<h2>What is Agas<a class="headerlink" href="#what-is-agas" title="Permalink to this heading">#</a></h2>
+<p>Agas is a small Python package allowing the user to find pairs of data
+series (e.g., columns in a matrix, rows in a data frame) which optimally
+fit flexible criteria for their aggregated values.</p>
+<p>For example, Agas can be used to find the two rows which satisfy the
+requirement of having similar median values, but vary in their standard
+deviations.</p>
+</section>
+<section id="use-cases">
+<h2>Use cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">#</a></h2>
+<p>Agas can be useful to you when you want to explore your data, or present
+how two units (e.g., patiants in your study) score similarly on some
+aggregated measure and differently on another. You can select almost any
+standard or custom aggregation function you wish, and set the weight of
+the similarity function or divergence function flexibly.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<p>NumPy and Pandas. That’s it.</p>
+<section id="toy-data-example">
+<h3>Toy-data example<a class="headerlink" href="#toy-data-example" title="Permalink to this heading">#</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">import</span> <span class="nn">agas</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.precision&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">normalize_data</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize an array of values between 0 and 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Our data is a matrix of size 4 X 4. Given 4 rows, there are 6 unique
+pairs of rows (<code class="docutils literal notranslate"><span class="pre">N(N</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">/</span> <span class="pre">2</span></code>).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>We want to find pair of rows which have the most similar median values
+at the same time as having the most different standard deviations.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maximize_similarity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span>
+<span class="n">maximize_divergence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span>
+</pre></div>
+</div>
+<p>This matrix shows the median values on each row, and their normalized
+values (right column):</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a_medians</span> <span class="o">=</span> <span class="n">maximize_similarity</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">a_medians</span><span class="p">,</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">a_medians</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">1.</span>   <span class="p">,</span>  <span class="mf">0.</span>   <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">2.5</span>  <span class="p">,</span>  <span class="mf">0.333</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">9.</span>   <span class="p">,</span>  <span class="mf">0.952</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">9.5</span>  <span class="p">,</span>  <span class="mf">1.</span>   <span class="p">]])</span>
+</pre></div>
+</div>
+<p>This matrix shows the standard deviations for each row, and their
+normalized values (right column):</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a_sds</span> <span class="o">=</span> <span class="n">maximize_divergence</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">a_sds</span><span class="p">,</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">a_sds</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">0.433</span><span class="p">,</span> <span class="mf">0.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.118</span><span class="p">,</span> <span class="mf">0.791</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.299</span><span class="p">,</span> <span class="mf">1.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">1.118</span><span class="p">,</span> <span class="mf">0.791</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Here it is possible to guess that the pair of rows from <code class="docutils literal notranslate"><span class="pre">a</span></code> with the
+highest similarity in medians and highest divergence in SDs is the pair
+of two first rows, as they have relatively close median values (0 and
+0.33, when normalized) and quite different standard deviations (0 and
+0.79, normalized).</p>
+<p>As you’ll see below, this is also the result obtained using <code class="docutils literal notranslate"><span class="pre">Agas</span></code>.</p>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">agas.pair_from_array</span></code> below returns a tuple of two arrays: -
+A 2-D array of size 6 X 2, representing the pairs of row indices. - A
+1-D array of the optimality scores of each pair (0 is the best, 1 is the
+worst).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indices</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">maximize_similarity</span><span class="p">,</span>
+                                       <span class="n">maximize_divergence</span><span class="p">,</span> <span class="n">return_filter</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The optimal score: </span><span class="si">{</span><span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> - rows </span><span class="si">{</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The least optimal score: </span><span class="si">{</span><span class="n">scores</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> - rows </span><span class="si">{</span><span class="n">indices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">optimal</span> <span class="n">score</span><span class="p">:</span> <span class="mf">0.0</span> <span class="o">-</span> <span class="n">rows</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">The</span> <span class="n">least</span> <span class="n">optimal</span> <span class="n">score</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">rows</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Agas can return the matrix of optimality scores, using the
+<code class="docutils literal notranslate"><span class="pre">return_matrix</span></code> argument:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optimality_scores_matrix</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">maximize_similarity</span><span class="p">,</span> <span class="n">maximize_divergence</span><span class="p">,</span> <span class="n">return_matrix</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Viewed as a matrix, the scores match the conclusions from above where
+the pairing of rows 0 and 1 provides an optimal fit, while this of rows
+1 and 2 provides the least favorable pair.</p>
+<p>The diagonal of the matrix is un-colored, as <code class="docutils literal notranslate"><span class="pre">Agas</span></code> removes pairings
+of each row with itself:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">optimality_scores_matrix</span><span class="p">,</span> <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="tutorial_files%5Ctutorial_17_0.png" src="tutorial_files%5Ctutorial_17_0.png" />
+<p><code class="docutils literal notranslate"><span class="pre">Agas</span></code> can weight differently the similarity and divergence functions
+using the <code class="docutils literal notranslate"><span class="pre">similarity_weight</span></code> argument. Here we favor similaritry in
+median value over divergence in standard deviation.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">medians_biased_scores_mat</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_array</span><span class="p">(</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">maximize_similarity</span><span class="p">,</span> <span class="n">maximize_divergence</span><span class="p">,</span> <span class="n">similarity_weight</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+    <span class="n">return_matrix</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">medians_biased_scores_mat</span><span class="p">,</span> <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="tutorial_files%5Ctutorial_19_0.png" src="tutorial_files%5Ctutorial_19_0.png" />
+</section>
+<section id="real-world-example">
+<h3>Real-world example<a class="headerlink" href="#real-world-example" title="Permalink to this heading">#</a></h3>
+<p>We load a dataset containing the GDP values for different countries and
+regions, 1968-2016. While a relatively a small dataset, <code class="docutils literal notranslate"><span class="pre">agas</span></code> is
+useful here as it is impossible to manually compare all pairs of rows.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://datahub.io/core/gdp/r/gdp.csv&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country Name</th>
+      <th>Country Code</th>
+      <th>Year</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>1968</td>
+      <td>2.58e+10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>1969</td>
+      <td>2.84e+10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>1970</td>
+      <td>3.14e+10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>1971</td>
+      <td>3.64e+10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Arab World</td>
+      <td>ARB</td>
+      <td>1972</td>
+      <td>4.33e+10</td>
+    </tr>
+  </tbody>
+</table>
+</div><p>Change the unit of Value (GDP) from $ to trillions, for easier
+readability</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">]</span> <span class="o">/=</span> <span class="mf">1e12</span>
+</pre></div>
+</div>
+<p>Remove the top and bottom 2.5 percentiles</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_per_country</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Country Name&#39;</span><span class="p">)[</span><span class="s1">&#39;Value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">non_outliers</span> <span class="o">=</span> <span class="n">total_per_country</span><span class="p">[</span><span class="n">total_per_country</span><span class="o">.</span><span class="n">between</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">total_per_country</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">]))]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">non_outliers</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Considerable number of countries and regions have no data until the
+1990s:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span>
+                 <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span>
+                     <span class="s1">&#39;Country Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Proportion of non-missing data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Year&#39;</span><span class="p">),</span> <span class="n">Text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;Proportion of non-missing data&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<img alt="tutorial_files%5Ctutorial_28_1.png" src="tutorial_files%5Ctutorial_28_1.png" />
+<p>Pivoting the data frame, as <code class="docutils literal notranslate"><span class="pre">Agas</span></code> 0.0.1 only handles wide-format
+data.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wide_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">1990</span><span class="p">)]</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span><span class="p">,</span>
+                                            <span class="n">index</span><span class="o">=</span><span class="s1">&#39;Country Name&#39;</span><span class="p">)</span>
+<span class="n">wide_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Year</th>
+      <th>1991</th>
+      <th>1992</th>
+      <th>...</th>
+      <th>2015</th>
+      <th>2016</th>
+    </tr>
+    <tr>
+      <th>Country Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Bolivia</th>
+      <td>5.34e-03</td>
+      <td>5.64e-03</td>
+      <td>...</td>
+      <td>3.30e-02</td>
+      <td>3.38e-02</td>
+    </tr>
+    <tr>
+      <th>Antigua and Barbuda</th>
+      <td>4.82e-04</td>
+      <td>4.99e-04</td>
+      <td>...</td>
+      <td>1.36e-03</td>
+      <td>1.46e-03</td>
+    </tr>
+    <tr>
+      <th>Monaco</th>
+      <td>2.48e-03</td>
+      <td>2.74e-03</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Sub-Saharan Africa (excluding high income)</th>
+      <td>3.19e-01</td>
+      <td>3.13e-01</td>
+      <td>...</td>
+      <td>1.60e+00</td>
+      <td>1.51e+00</td>
+    </tr>
+    <tr>
+      <th>Virgin Islands (U.S.)</th>
+      <td>1.67e-03</td>
+      <td>1.77e-03</td>
+      <td>...</td>
+      <td>3.77e-03</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 26 columns</p>
+</div><p>Here we use <code class="docutils literal notranslate"><span class="pre">agas.pair_from_wide_df</span></code>, which behaves similary to
+<code class="docutils literal notranslate"><span class="pre">agas.pair_from_array</span></code> used above.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indices</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">agas</span><span class="o">.</span><span class="n">pair_from_wide_df</span><span class="p">(</span>
+    <span class="n">wide_df</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">similarity_weight</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">return_filter</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<pre class="literal-block">c:userseitan hemedonedrive - university of haifaphdpython_projectsagasagas_from_numpy.py:266: RuntimeWarning: The result of aggregating the input scores using the function median resulted in 45 NaN scores.
+  warnings.warn(f&quot;The result of aggregating the input scores using the &quot;</pre>
+<p>Select the optimal pair - two entries which are most similar in their
+variances (<code class="docutils literal notranslate"><span class="pre">np.nanstd</span></code>) and most divergent in their median GDP values
+(<code class="docutils literal notranslate"><span class="pre">np.nanmedian</span></code>).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wide_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nanmedian</th>
+      <th>nanstd</th>
+    </tr>
+    <tr>
+      <th>Country Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>China</th>
+      <td>1.81</td>
+      <td>3.72</td>
+    </tr>
+    <tr>
+      <th>United States</th>
+      <td>11.89</td>
+      <td>3.86</td>
+    </tr>
+  </tbody>
+</table>
+</div><p>China and United States show similar variability in their GDP, but
+different median values. It is interesting to explore other
+relationships between pairs of data points, as we do using the plot
+below.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Normalized aggregated data</span>
+<span class="n">sds</span> <span class="o">=</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">wide_df</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">medians</span> <span class="o">=</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">wide_df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Indices of interesting data points, the most otpimal, least optimal and</span>
+<span class="n">country_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="n">scores_of_interest</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="n">scores</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">scores_of_interest_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">scores_of_interest</span><span class="p">)]</span>
+<span class="n">country_indices</span> <span class="o">=</span> <span class="n">country_indices</span><span class="p">[</span>
+    <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">country_indices</span><span class="p">,</span> <span class="n">scores_of_interest_indices</span><span class="p">)]</span>
+
+<span class="c1"># Plot asthetics</span>
+<span class="n">plot_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;deepskyblue&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">]</span>
+<span class="n">scores_of_interest_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Optimal&#39;</span><span class="p">,</span> <span class="s1">&#39;Middling&#39;</span><span class="p">,</span> <span class="s1">&#39;Least Optimal&#39;</span><span class="p">]</span>
+<span class="n">scores_of_interest_line_styles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;dotted&quot;</span><span class="p">,</span> <span class="s2">&quot;dashed&quot;</span><span class="p">]</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">plot_colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>The plot below shows the data, first raw and then noramlized and
+aggregated. The most optimal pair was United States and china, which
+have similar variance and divergent median GDP as shown above.</p>
+<p>the least optimal pair was Israel and Swaziland, which show divergent
+standard deviations and similar medians.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+                        <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height_ratios&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span>
+<span class="n">raw_data_ax</span><span class="p">,</span> <span class="n">norm_aggrgated_data_ax</span><span class="p">,</span> <span class="n">_ax_to_remoev</span><span class="p">,</span> <span class="n">legend_ax</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flat</span>
+
+<span class="c1"># Plot the data excluding the data matching the points of interest</span>
+<span class="n">raw_data_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wide_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">country_indices</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;deepskyblue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                 <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">raw_data_ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;GDP (Trillion $), Log-scale&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">current_row_indices</span><span class="p">,</span> <span class="n">_color</span><span class="p">,</span> <span class="n">lab</span><span class="p">,</span> <span class="n">ls</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scores_of_interest_indices</span><span class="p">,</span>
+                                                <span class="n">plot_colors</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                                                <span class="n">scores_of_interest_labels</span><span class="p">,</span>
+                                                <span class="n">scores_of_interest_line_styles</span>
+                                                <span class="p">):</span>
+    <span class="n">country_labels</span> <span class="o">=</span> <span class="n">wide_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">current_row_indices</span><span class="p">]</span>
+    <span class="n">colors</span><span class="p">[</span><span class="n">current_row_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">_color</span>
+    <span class="n">alphas</span><span class="p">[</span><span class="n">current_row_indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">raw_data_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wide_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">current_row_indices</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                     <span class="n">c</span><span class="o">=</span><span class="n">_color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">lab</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">country_labels</span><span class="p">),</span>
+                     <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">current_row_indices</span><span class="p">,</span> <span class="n">country_labels</span><span class="p">):</span>
+        <span class="n">norm_aggrgated_data_ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="p">[</span><span class="n">medians</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">sds</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.25</span><span class="p">],</span>
+                                        <span class="n">text</span><span class="o">=</span><span class="n">l</span><span class="p">,</span>
+                                        <span class="n">color</span><span class="o">=</span><span class="n">_color</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="c1"># Scatter the normalized and aggregated data</span>
+<span class="n">norm_aggrgated_data_ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">medians</span><span class="p">,</span> <span class="n">sds</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alphas</span><span class="p">)</span>
+<span class="n">norm_aggrgated_data_ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Normalized Median&#39;</span><span class="p">,</span>
+                           <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Normalized SD, Log-scale&#39;</span><span class="p">)</span>
+
+<span class="c1"># # Remove duplicate entries in the legend and place in the lower row of axis</span>
+<span class="n">handles</span><span class="p">,</span> <span class="n">country_labels</span> <span class="o">=</span> <span class="n">raw_data_ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">by_label</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">country_labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+<span class="n">legend_ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">legend_ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">_ax_to_remoev</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+<span class="n">norm_aggrgated_data_ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">raw_data_ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="tutorial_files%5Ctutorial_38_0.png" src="tutorial_files%5Ctutorial_38_0.png" />
+</section>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, Eitan Hemed.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

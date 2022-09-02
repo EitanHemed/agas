@@ -36,9 +36,8 @@ jobs:
       - name: Build documentation
         if: ${{ matrix.platform == 'ubuntu-latest' && matrix.python-version == 3.9 }}
         run: |
-          cd docs/source
+          cd docs
           pip install -r requirements.txt
-          cd ..
           make clean && make html && make doctest
           
           
