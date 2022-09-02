@@ -4,3 +4,4 @@ sphinx-automodapi
 numpydoc
 nbconvert
 ipykernel
+nbsphinx
