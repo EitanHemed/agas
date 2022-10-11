@@ -159,7 +159,7 @@ for more examples see the [tutorial](github.io/EitanHemed/agas/tutorial).
 
 
 #### Documentation
-See [Here](github.io/EitanHemed/agas).
+See [Here](github.io/EitanHemed/agas/api).
 
 
 #### Bug reports
