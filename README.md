@@ -154,12 +154,12 @@ print(
 
 
 
-for more examples see the [tutorial](github.io/EitanHemed/agas/tutorial).
+for more examples see the [tutorial](https://eitanhemed.github.io/agas/_build/html/tutorial.html).
 
 
 
 #### Documentation
-See [Here](github.io/EitanHemed/agas/api).
+See [Here](https://eitanhemed.github.io/agas/_build/html/api.html).
 
 
 #### Bug reports
